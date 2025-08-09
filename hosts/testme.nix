@@ -9,7 +9,6 @@
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
   environment.systemPackages = with stable; [
     git
-    starship
     neovim
     xclip
     wget
@@ -19,35 +18,22 @@
     libgccjit
     clang
     fd
-    htop
     ripgrep
     bat
     gh
     unzip
     fish
     fzf
-    smartcat
     eza
     lua
     luajit
-    zed-editor
     deno 
     nushell
-
     unstable.cargo 
     unstable.uv
-    (writeShellScriptBin "nixconf" ''
-      nvim /etc/nixos/configuration.nix
-    '')
-    (writeShellScriptBin "backup" ''
-      cp /etc/nixos/configuration.nix $HOME/dotfiles
-    '')
-    (writeShellScriptBin "rebuild" ''
-      sudo nixos-rebuild switch
-    '')
   ];
-  environment.shells = with stable; [ bash nushell ];
-  environment.shellInit = "nu";
+  environment.shells = with stable; [ bash fish nushell ];
+  environment.shellInit = "fish";
   environment.variables = {
     EDITOR = "nvim";
     MANPAGER = "nvim +Man!";
