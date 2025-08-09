@@ -1,21 +1,5 @@
-{ config, pkgs, ... }:
-
-let
-  stableTarball = builtins.fetchTarball {
-    url = "https://github.com/NixOS/nixpkgs/archive/release-25.05.tar.gz";
-  };
-  unstableTarball = builtins.fetchTarball {
-    url = "https://github.com/NixOS/nixpkgs/archive/nixpkgs-unstable.tar.gz";
-  };
-  stable = import stableTarball {
-    config.allowUnfree = true;
-    system = pkgs.system;
-  };
-  unstable = import unstableTarball {
-    config.allowUnfree = true;
-    system = pkgs.system;
-  };
-in{
+{ config, pkgs, stable, unstable, ... }:
+{
   imports = [ ];
   wsl.enable = true;
   wsl.defaultUser = "testme";
