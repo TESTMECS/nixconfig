@@ -3,15 +3,9 @@ let
   unstableTarball = fetchTarball {
     url = "https://github.com/NixOS/nixpkgs/archive/nixpkgs-unstable.tar.gz";
   };
-  unstable = import unstableTarball {
-    system = pkgs.system;
-  };
-in
-{
-  imports =
-    [
-      ./hardware-configuration.nix
-    ];
+  unstable = import unstableTarball { system = pkgs.system; };
+in {
+  imports = [ ./hardware-configuration.nix ];
   # ===
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
   # === 
@@ -56,9 +50,7 @@ in
     isNormalUser = true;
     description = "drew";
     extraGroups = [ "networkmanager" "wheel" ];
-    packages = with pkgs; [
-      kdePackages.kate
-    ];
+    packages = with pkgs; [ kdePackages.kate ];
   };
   services.displayManager.autoLogin.enable = true;
   services.displayManager.autoLogin.user = "seph";
@@ -72,32 +64,9 @@ in
     wget
     wezterm
   ];
-  environment.shells = with pkgs; [ bash nushell ];
-  environment.shellInit = "nu";
-  environment.variables = {
-    EDITOR = "nvim";
-    MANPAGER = "nvim +Man!";
-    XDG_CONFIG_HOME = "~/.config";
-    DOTFILES = "~/dotfiles";
-  };
-  environment.shellAliases = {
-    c = "clear";
-    v = "nvim";
-  };
+  environment.shells = with pkgs; [ bash fish nushell ];
   # === Programs ===
   programs.firefox.enable = true;
-  programs.git = {
-    enable = true;
-    config = {
-      init = {
-        defaultBranch = "trunk";
-      };
-      user = {
-        name = "TESTMECS";
-        email = "axwar7410@gmail.com";
-      };
-    };
-  };
   # === Services ===
   services.openssh.enable = true;
   system.stateVersion = "25.05";
