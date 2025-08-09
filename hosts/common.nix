@@ -1,6 +1,9 @@
 { config, pkgs, ... }:
 
 {
+  imports = [
+    ../nvim/default.nix # nvim config
+  ];
   # Shared config here
   networking.firewall.enable = false;
 
