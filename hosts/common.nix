@@ -1,9 +1,16 @@
 { config, pkgs, ... }:
 
 {
-  imports = [
-    ../nvim/default.nix # nvim config
-  ];
+  imports = [ ];
+  environment.shellAliases = {
+    ll = "ls -l";
+    c = "clear";
+    cat = "bat";
+    grep = "rg";
+    find = "fd";
+    npm = "pnpm";
+    v = "nvim";
+  };
   # Shared config here
   networking.firewall.enable = false;
 

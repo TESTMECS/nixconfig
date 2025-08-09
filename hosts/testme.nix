@@ -1,5 +1,4 @@
-{ config, pkgs, stable, unstable, ... }:
-{
+{ config, pkgs, stable, unstable, ... }: {
   imports = [ ];
   wsl.enable = true;
   wsl.defaultUser = "testme";
@@ -27,9 +26,9 @@
     eza
     lua
     luajit
-    deno 
+    deno
     nushell
-    unstable.cargo 
+    unstable.cargo
     unstable.uv
   ];
   environment.shells = with stable; [ bash fish nushell ];
@@ -40,22 +39,11 @@
     XDG_CONFIG_HOME = "$HOME/.config/";
     DOTFILES = "$HOME/dotfiles/";
   };
-  environment.shellAliases = {
-    ll = "ls -l";
-    c = "clear";
-    cat = "bat";
-    grep = "rg";
-    find = "fd";
-    npm = "pnpm";
-    v = "nvim";
-  };
   programs.nix-ld.enable = true;
   programs.git = {
     enable = true;
     config = {
-      init = {
-        defaultBranch = "trunk";
-      };
+      init = { defaultBranch = "trunk"; };
       user = {
         name = "TESTMECS";
         email = "axwar7410@gmail.com";
