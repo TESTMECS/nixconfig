@@ -1,5 +1,7 @@
 # NixOS configuration. 
-- Separate reproducible configuration on both my machines. 
+- [NVChad](https://nvchad.com/)
+- [WEZTERM](https://wezterm.org/)
+- [JWNO](https://agent-kilo.github.io/jwno/)
 
 ## Screenshots
 <img width="1864" height="918" alt="32fe1496f75a8f8c65ac2b133ac5cb0e" src="https://github.com/user-attachments/assets/4648d1a3-4c78-48e4-a763-ec8ad4078826" />
