@@ -7,24 +7,32 @@
   i18n.defaultLocale = "en_US.UTF-8";
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
   environment.systemPackages = with stable; [
+    # === shell ===
     git
-    neovim
-    xclip
-    wget
-    curl
     bash
+    xclip
     libgcc
     libgccjit
     clang
-    fd
+    curl
+    wget
+    fish
+    nushell
     ripgrep
+    fd
     bat
     gh
     unzip
-    fish
     fzf
+    # === neovim ===
+    neovim
     lua
+    luajit
+    # === Web ===
+    nodejs
     deno
+    pnpm
+    unstable.nushell
     unstable.cargo
     unstable.uv
   ];
