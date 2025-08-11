@@ -1,4 +1,13 @@
 return {
+  {
+    "CopilotC-Nvim/CopilotChat.nvim",
+    event = "VeryLazy",
+    dependencies = {
+      { "nvim-lua/plenary.nvim", branch = "master" },
+    },
+    build = "make",
+    opts = {},
+  },
   { "Olical/conjure", cmd = "Conjure", event = "VeryLazy" },
   {
     "stevearc/conform.nvim",
@@ -53,6 +62,7 @@ return {
     },
     dependencies = {
       { "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
+      { "2kabhishek/nerdy.nvim" },
     },
   },
 
@@ -118,8 +128,12 @@ return {
   },
   {
     "hrsh7th/nvim-cmp",
-
     dependencies = {
+
+      {
+        "supermaven-inc/supermaven-nvim",
+        opts = {},
+      },
       {
         -- snippet plugin
         "L3MON4D3/LuaSnip",

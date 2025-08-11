@@ -2,7 +2,7 @@
 require("nvchad.configs.lspconfig").defaults()
 local lspconfig = require "lspconfig"
 -- setup servers
-local servers = { "rust_analyzer", "ruff", "lua_ls" }
+local servers = { "rust_analyzer", "ruff", "lua_ls", "ts_ls", "gopls" }
 local nvlsp = require "nvchad.configs.lspconfig"
 -- lsps with default config
 for _, lsp in ipairs(servers) do

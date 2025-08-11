@@ -1,7 +1,7 @@
 ---@type ChadrcConfig
 local M = {}
 M.base46 = {
-  theme = "zenburn",
+  theme = "aquarium",
   hl_add = { floatTermBg = { bg = "darker_black" }, floatTermBorder = { bg = "darker_black", fg = "darker_black" } },
   integrations = {
     "flash",
