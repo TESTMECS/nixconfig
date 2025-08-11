@@ -23,11 +23,8 @@
     unzip
     fish
     fzf
-    eza
     lua
-    luajit
     deno
-    nushell
     unstable.cargo
     unstable.uv
   ];
