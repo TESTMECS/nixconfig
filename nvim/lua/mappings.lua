@@ -3,7 +3,6 @@ local map = vim.keymap.set
 local harpoon = require "harpoon"
 vim.keymap.del("n", "<leader>e")
 map("n", ";", ":", { desc = "CMD enter command mode" })
-map("i", "jk", "<ESC>")
 map("n", "<leader>z", "za", { desc = "Toggle fold" })
 --Plugins
 map("n", "<leader>l", "<cmd>Lazy<CR>", { desc = "Lazy" })
