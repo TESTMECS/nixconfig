@@ -18,13 +18,21 @@ vim.o.cursorline = true
 vim.o.signcolumn = "yes"
 vim.o.clipboard = "unnamedplus"
 -- Commands
+vim.api.nvim_create_autocmd("TextYankPost", {
+	group = vim.api.nvim_create_augroup("highlight_yank", {}),
+	desc = "Hightlight selection on yank",
+	pattern = "*",
+	callback = function()
+		vim.highlight.on_yank({ higroup = "IncSearch", timeout = 500 })
+	end,
+})
 vim.api.nvim_create_autocmd("BufWritePre", {
 	pattern = "*",
 	callback = function(args)
 		require("conform").format({ bufnr = args.buf })
 	end,
 })
--- Key maps.
+-- Key maps
 local map = vim.keymap.set
 -- Plugins.
 map("n", "<leader>ff", "<cmd>FzfLua files<CR>", { desc = "Find Files" })
@@ -43,7 +51,7 @@ map("n", "<leader>rr", "<cmd>restart<CR>", { desc = "restart" })
 -- Declare Packages.
 vim.pack.add({
 	-- Color
-	"https://github.com/vague2k/vague.nvim.git",
+	"https://github.com/Everblush/nvim",
 	"https://github.com/nvim-lualine/lualine.nvim",
 	-- Essentials
 	{ src = "https://github.com/nvim-treesitter/nvim-treesitter", version = "main" },
@@ -62,6 +70,7 @@ vim.pack.add({
 	--completion
 	"https://github.com/echasnovski/mini.completion",
 	"https://github.com/echasnovski/mini.icons",
+	"https://github.com/echasnovski/mini.snippets",
 	"https://github.com/rafamadriz/friendly-snippets",
 	{ src = "https://github.com/L3MON4D3/LuaSnip", version = "v2.4.0" },
 	-- AI
@@ -69,8 +78,8 @@ vim.pack.add({
 })
 -- Setup Plugins
 -- Colorscheme
-vim.cmd("colorscheme vague")
-
+-- require("everblush").setup()
+vim.cmd("colorscheme everblush")
 -- Treesitter.
 require("nvim-treesitter").setup({
 	ensure_installed = {
@@ -92,33 +101,87 @@ require("nvim-treesitter").setup({
 	highlight = { enable = true, use_languagetree = true },
 	indent = { enable = true },
 })
+
+--FZF LUA
 require("fzf-lua").setup({ "fzf-native" })
+
+-- Mason
 require("mason").setup({})
-require("nvim-tree").setup({})
-require("markview").setup({})
-require("supermaven-nvim").setup({})
-require("mini.completion").setup({
-	window = {
-		info = { height = 25, width = 80, border = "rounded" },
-		signature = { height = 25, width = 80, border = "rounded" },
+
+-- Neovim Tree
+local HEIGHT_RATIO = 0.8
+local WIDTH_RATIO = 0.5
+require("nvim-tree").setup({
+	view = {
+		float = {
+			enable = true,
+			open_win_config = function()
+				local screen_w = vim.opt.columns:get()
+				local screen_h = vim.opt.lines:get() - vim.opt.cmdheight:get()
+				local window_w = screen_w * WIDTH_RATIO
+				local window_h = screen_h * HEIGHT_RATIO
+				local window_w_int = math.floor(window_w)
+				local window_h_int = math.floor(window_h)
+				local center_x = (screen_w - window_w) / 2
+				local center_y = ((vim.opt.lines:get() - window_h) / 2) - vim.opt.cmdheight:get()
+				return {
+					border = "rounded",
+					relative = "editor",
+					row = center_y,
+					col = center_x,
+					width = window_w_int,
+					height = window_h_int,
+				}
+			end,
+		},
+		width = function()
+			return math.floor(vim.opt.columns:get() * WIDTH_RATIO)
+		end,
 	},
 })
+
+-- Markview
+require("markview").setup({})
+
+-- Supermaven
+require("supermaven-nvim").setup({})
+
+-- Mini --------------------------------
+require("mini.completion").setup({})
+local gen_loader = require("mini.snippets").gen_loader
+require("mini.snippets").setup({
+	snippets = {
+		gen_loader.from_file("~/.config/nvim/snippets/global.json"),
+		gen_loader.from_lang(),
+	},
+	mappings = {
+		expand = "<C-y>",
+		stop = "<C-y><C-c>",
+	},
+})
+require("mini.snippets").start_lsp_server()
+-- Testing Compile !! -------------------
 require("compile").setup({
 	cmds = {
 		default = "cargo build",
 	},
 })
+
+-- LUALINE ----------------------------
 require("lualine").setup({
-	theme = "codedark",
 	sections = {
 		lualine_y = { "lsp_status" },
 	},
 })
+
+-- Harpoon ----------------------------
 local harpoon = require("harpoon")
 harpoon:setup()
 vim.keymap.set("n", "<leader>h", function()
 	harpoon.ui:toggle_quick_menu(harpoon:list())
 end)
+
+-- Conform ----------------------------
 require("conform").setup({
 	formatters_by_ft = {
 		lua = { "stylua" },
@@ -127,6 +190,7 @@ require("conform").setup({
 		nix = { "nixfmt" },
 	},
 })
+-- LSP --------------------------------
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 local cmp_cap = require("mini.completion").get_lsp_capabilities()
 vim.tbl_deep_extend("force", capabilities, cmp_cap)
