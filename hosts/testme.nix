@@ -16,14 +16,15 @@
     clang
     curl
     wget
-    fish
-    nushell
     ripgrep
     fd
     bat
     gh
     unzip
     fzf
+    # === shell ===
+    fish
+    starship
     # === neovim ===
     neovim
     lua

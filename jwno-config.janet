@@ -1,14 +1,12 @@
 (import jwno/auto-layout)
 (import jwno/indicator)
 (import jwno/ui-hint)
-(import jwno/layout-history) #
-(import jwno/util) #
-(import jwno/log) # 
+(import jwno/layout-history) 
+(import jwno/util) 
+(import jwno/log)  
 (use jw32/_uiautomation) # For UIA_* constants
 # Mod Key
 (def mod-key "alt")
-(unless (find |(= $ (string/ascii-lower mod-key)) ["win" "alt"])
-  (errorf "unsupported mod key: %n" mod-key))
 # Hint Key
 (def hint-key
   (case (string/ascii-lower mod-key)
@@ -25,11 +23,13 @@
        :down  "J"
        :up    "K"
        :right "L"})))
+
 (def hint-key-list (case keyboard-layout :qwerty "fjdksleiwocmxz"))
 # Most of Jwno's APIs are exported as methods in these "manager" objects.
 # You can inspect them in the Jwno REPL by looking into their prototypes.
 # For example, to see all methods available in the window manager object:
 #     (keys (table/proto-flatten (table/getproto (in jwno/context :window-manager))))
+
 (def {:key-manager key-man
       :command-manager command-man
       :window-manager window-man
@@ -37,18 +37,18 @@
       :hook-manager hook-man
       :repl-manager repl-man}
   jwno/context)
-# Replace the key placeholders with the actual key names
+
 (defmacro $ [str]
   ~(->> ,str
         (peg/replace-all "${MOD}"  ,mod-key)
         (peg/replace-all "${HINT}" ,hint-key)
         (string)))
-# A macro to simplify key map definitions. Of course you can call
 (defmacro k [key-seq cmd &opt doc]
   ~(:define-key keymap ($ ,key-seq) ,cmd ,doc))
+
 (def current-frame-area
   (indicator/current-frame-area jwno/context))
-(put current-frame-area :margin 2)
+(put current-frame-area :margin 0)
 (:enable current-frame-area)
 (def ui-hint (ui-hint/ui-hint jwno/context))
 (:enable ui-hint)
@@ -319,38 +319,6 @@
 (def root-keymap (build-keymap key-man))
 (:set-keymap key-man root-keymap)
 
-(:add-hook hook-man :filter-forced-window
-   (fn user-forced-window-filter [_hwnd uia-win _exe-path _desktop-info]
-     (or
-       (= "Ubisoft Connect" (:get_CachedName uia-win))
-       # Add your own rules here
-       )))
-(:add-hook hook-man :filter-window
-   (fn user-window-filter [_hwnd uia-win exe-path desktop-info]
-     (def desktop-name (in desktop-info :name))
-     # Excluded windows
-     (not (or
-            (= "Desktop 2" desktop-name)
-            # Add your own rules here
-            ))))
-
-(:add-hook hook-man :filter-window
-  (fn [_hwnd uia-win exe-path desktop-info]
-    (not= "cs2.exe" (:get_CachedName uia-win))))
-
-(:add-hook hook-man :window-created
-   (fn [win uia-win _exe-path _desktop-info]
-     (put (in win :tags) :anchor :center)
-     (put (in win :tags) :margin 10)
-     (def class-name (:get_CachedClassName uia-win))
-     (cond
-        (find |(= $ class-name)
-             [
-              "ConsoleWindowClass"
-              "CASCADIA_HOSTING_WINDOW_CLASS"])
-       (:set-alpha win (math/floor (* 256 0.9)))
-       (= "#32770" class-name) # Dialog window class
-       (put (in win :tags) :no-expand true))))
 (:add-hook hook-man :monitor-updated
    (fn [frame]
      (put (in frame :tags) :padding 10)))
@@ -385,13 +353,3 @@
 
    Shows the root keymap defined in the config file.
    ```)
-(:add-command command-man :grant-lives
-   (fn []
-     (:show-tooltip
-        ui-man
-        :grant-lives
-        "Congratulations! You've been granted infinite lives ;)"
-        nil
-        nil
-        5000
-        :center)))
