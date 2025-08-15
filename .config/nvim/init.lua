@@ -54,12 +54,14 @@ vim.pack.add({
 	"https://github.com/neovim/nvim-lspconfig",
 	-- The true essential
 	{ src = "https://github.com/ThePrimeagen/harpoon", version = "harpoon2" },
+	"https://github.com/pohlrabi404/compile.nvim",
 	-- Extras
 	"https://github.com/nvim-tree/nvim-tree.lua",
 	"https://github.com/OXY2DEV/markview.nvim",
 	"https://github.com/stevearc/conform.nvim",
 	--completion
 	"https://github.com/echasnovski/mini.completion",
+	"https://github.com/echasnovski/mini.icons",
 	"https://github.com/rafamadriz/friendly-snippets",
 	{ src = "https://github.com/L3MON4D3/LuaSnip", version = "v2.4.0" },
 	-- AI
@@ -68,6 +70,7 @@ vim.pack.add({
 -- Setup Plugins
 -- Colorscheme
 vim.cmd("colorscheme vague")
+
 -- Treesitter.
 require("nvim-treesitter").setup({
 	ensure_installed = {
@@ -82,6 +85,8 @@ require("nvim-treesitter").setup({
 		"nu",
 		"html",
 		"go",
+		"vim",
+		"vimdoc",
 		"janet_simple",
 	},
 	highlight = { enable = true, use_languagetree = true },
@@ -92,9 +97,22 @@ require("mason").setup({})
 require("nvim-tree").setup({})
 require("markview").setup({})
 require("supermaven-nvim").setup({})
-require("mini.completion").setup({})
+require("mini.completion").setup({
+	window = {
+		info = { height = 25, width = 80, border = "rounded" },
+		signature = { height = 25, width = 80, border = "rounded" },
+	},
+})
+require("compile").setup({
+	cmds = {
+		default = "cargo build",
+	},
+})
 require("lualine").setup({
 	theme = "codedark",
+	sections = {
+		lualine_y = { "lsp_status" },
+	},
 })
 local harpoon = require("harpoon")
 harpoon:setup()
@@ -109,6 +127,9 @@ require("conform").setup({
 		nix = { "nixfmt" },
 	},
 })
+local capabilities = vim.lsp.protocol.make_client_capabilities()
+local cmp_cap = require("mini.completion").get_lsp_capabilities()
+vim.tbl_deep_extend("force", capabilities, cmp_cap)
 -- Lsp config
 vim.lsp.config("lua_ls", {
 	settings = {
