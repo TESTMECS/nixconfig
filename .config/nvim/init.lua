@@ -3,7 +3,6 @@ vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 vim.g.have_nerd_font = true
 -- Options
-vim.o.relativenumber = true
 vim.o.autoindent = true
 vim.o.smartindent = true
 vim.o.shiftwidth = 2
@@ -50,8 +49,7 @@ map("n", "<Esc>", "<cmd>noh<CR>", { desc = "clear highlights" })
 map("n", "<leader>rr", "<cmd>restart<CR>", { desc = "restart" })
 -- Declare Packages.
 vim.pack.add({
-	-- Color
-	"https://github.com/Everblush/nvim",
+	"https://github.com/sainnhe/everforest",
 	"https://github.com/nvim-lualine/lualine.nvim",
 	-- Essentials
 	{ src = "https://github.com/nvim-treesitter/nvim-treesitter", version = "main" },
@@ -78,8 +76,7 @@ vim.pack.add({
 })
 -- Setup Plugins
 -- Colorscheme
--- require("everblush").setup()
-vim.cmd("colorscheme everblush")
+vim.cmd([[colorscheme everforest]])
 -- Treesitter.
 require("nvim-treesitter").setup({
 	ensure_installed = {
@@ -142,10 +139,8 @@ require("nvim-tree").setup({
 
 -- Markview
 require("markview").setup({})
-
 -- Supermaven
 require("supermaven-nvim").setup({})
-
 -- Mini --------------------------------
 require("mini.completion").setup({})
 local gen_loader = require("mini.snippets").gen_loader
@@ -163,24 +158,21 @@ require("mini.snippets").start_lsp_server()
 -- Testing Compile !! -------------------
 require("compile").setup({
 	cmds = {
-		default = "cargo build",
+		default = "zig build",
 	},
 })
-
 -- LUALINE ----------------------------
 require("lualine").setup({
 	sections = {
 		lualine_y = { "lsp_status" },
 	},
 })
-
 -- Harpoon ----------------------------
 local harpoon = require("harpoon")
 harpoon:setup()
 vim.keymap.set("n", "<leader>h", function()
 	harpoon.ui:toggle_quick_menu(harpoon:list())
 end)
-
 -- Conform ----------------------------
 require("conform").setup({
 	formatters_by_ft = {
@@ -204,4 +196,4 @@ vim.lsp.config("lua_ls", {
 		},
 	},
 })
-vim.lsp.enable({ "lua_ls", "rust_analyzer", "rnix_lsp" })
+vim.lsp.enable({ "lua_ls", "rust_analyzer", "rnix_lsp", "zls" })
