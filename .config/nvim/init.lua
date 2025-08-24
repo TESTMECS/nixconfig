@@ -33,10 +33,6 @@ vim.api.nvim_create_autocmd("BufWritePre", {
 })
 -- Key maps
 local map = vim.keymap.set
--- Plugins.
-map("n", "<leader>ff", "<cmd>FzfLua files<CR>", { desc = "Find Files" })
-map("n", "<leader>fk", "<cmd>FzfLua keymaps<CR>", { desc = "Find Keymaps" })
-map("n", "<C-n>", "<cmd>NvimTreeToggle<CR>", { desc = "File Tree" })
 -- Windows
 map("n", "<C-h>", "<C-w>h", { desc = "switch window left" })
 map("n", "<C-l>", "<C-w>l", { desc = "switch window right" })
@@ -47,9 +43,19 @@ map("n", "<leader>/", "gcc", { desc = "toggle comment", remap = true })
 map("n", "<C-s>", "<cmd>write<CR>", { desc = "save" })
 map("n", "<Esc>", "<cmd>noh<CR>", { desc = "clear highlights" })
 map("n", "<leader>rr", "<cmd>restart<CR>", { desc = "restart" })
+-- Plugins.
+map("n", "<leader>ff", "<cmd>FzfLua files<CR>", { desc = "Find Files" })
+map("n", "<leader>fk", "<cmd>FzfLua keymaps<CR>", { desc = "Find Keymaps" })
+map("n", "<C-n>", "<cmd>NvimTreeToggle<CR>", { desc = "File Tree" })
+map("n", "<leader>td", function()
+	local diag = require("tiny-inline-diagnostic")
+	diag.toggle()
+end, { desc = "toggle diagnostic" })
+map("n", "<leader>z", "<cmd>ZenMode<CR>", { desc = "toggle zen mode" })
 -- Declare Packages.
 vim.pack.add({
-	"https://github.com/sainnhe/everforest",
+	-- Theme
+	"https://github.com/vague2k/vague.nvim",
 	"https://github.com/nvim-lualine/lualine.nvim",
 	-- Essentials
 	{ src = "https://github.com/nvim-treesitter/nvim-treesitter", version = "main" },
@@ -58,10 +64,9 @@ vim.pack.add({
 	"https://github.com/nvim-tree/nvim-web-devicons",
 	"https://github.com/mason-org/mason.nvim",
 	"https://github.com/neovim/nvim-lspconfig",
-	-- The true essential
+	-- The true essentials
 	{ src = "https://github.com/ThePrimeagen/harpoon", version = "harpoon2" },
 	"https://github.com/pohlrabi404/compile.nvim",
-	-- Extras
 	"https://github.com/nvim-tree/nvim-tree.lua",
 	"https://github.com/OXY2DEV/markview.nvim",
 	"https://github.com/stevearc/conform.nvim",
@@ -69,14 +74,19 @@ vim.pack.add({
 	"https://github.com/echasnovski/mini.completion",
 	"https://github.com/echasnovski/mini.icons",
 	"https://github.com/echasnovski/mini.snippets",
+	"https://github.com/rachartier/tiny-inline-diagnostic.nvim",
 	"https://github.com/rafamadriz/friendly-snippets",
 	{ src = "https://github.com/L3MON4D3/LuaSnip", version = "v2.4.0" },
 	-- AI
 	"https://github.com/supermaven-inc/supermaven-nvim",
+	-- Trying out
+	"https://github.com/Olical/conjure",
+	"https://github.com/folke/zen-mode.nvim",
 })
+
 -- Setup Plugins
 -- Colorscheme
-vim.cmd([[colorscheme everforest]])
+vim.cmd([[colorscheme vague]])
 -- Treesitter.
 require("nvim-treesitter").setup({
 	ensure_installed = {
@@ -84,6 +94,7 @@ require("nvim-treesitter").setup({
 		"zig",
 		"rust",
 		"typescript",
+		"javascript",
 		"markdown",
 		"json",
 		"nix",
@@ -91,6 +102,7 @@ require("nvim-treesitter").setup({
 		"nu",
 		"html",
 		"go",
+		"fennel",
 		"vim",
 		"vimdoc",
 		"janet_simple",
@@ -101,7 +113,8 @@ require("nvim-treesitter").setup({
 
 --FZF LUA
 require("fzf-lua").setup({ "fzf-native" })
-
+-- Diagnostics
+require("tiny-inline-diagnostic").setup({})
 -- Mason
 require("mason").setup({})
 
@@ -158,7 +171,7 @@ require("mini.snippets").start_lsp_server()
 -- Testing Compile !! -------------------
 require("compile").setup({
 	cmds = {
-		default = "zig build",
+		default = "cargo build",
 	},
 })
 -- LUALINE ----------------------------
