@@ -16,28 +16,30 @@
     clang
     curl
     wget
+    gh
+    unzip
+    # === Rust ===
     ripgrep
     fd
     bat
-    gh
-    unzip
     fzf
+    broot
+    eza
+    jujutsu
+    just
+    procs
+    dua
     # === shell ===
     fish
     starship
     # === neovim ===
     neovim
-    lua
-    luajit
     # === Web ===
     nodejs
-    deno
     pnpm
-    unstable.nushell
     unstable.cargo
-    unstable.uv
   ];
-  environment.shells = with stable; [ bash fish nushell ];
+  environment.shells = with stable; [ bash fish ];
   programs.nix-ld.enable = true;
   system.stateVersion = "24.11";
 }

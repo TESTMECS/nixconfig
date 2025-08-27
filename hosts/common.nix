@@ -3,13 +3,13 @@
 {
   imports = [ ];
   environment.shellAliases = {
-    ll = "ls -l";
-    c = "clear";
+    ll = "eza -l";
+    l = "eza -l";
+    la = "eza -la";
     cat = "bat";
     grep = "rg";
     find = "fd";
     npm = "pnpm";
-    v = "nvim";
   };
   environment.variables = {
     EDITOR = "nvim";
