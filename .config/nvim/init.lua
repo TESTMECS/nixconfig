@@ -1,4 +1,3 @@
--- Globals
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 vim.g.have_nerd_font = true
@@ -17,7 +16,8 @@ vim.o.cursorline = true
 vim.o.signcolumn = "yes"
 vim.o.clipboard = "unnamedplus"
 -- Commands
-vim.api.nvim_create_autocmd("TextYankPost", {
+local autocmd = vim.api.nvim_create_autocmd
+autocmd("TextYankPost", {
 	group = vim.api.nvim_create_augroup("highlight_yank", {}),
 	desc = "Hightlight selection on yank",
 	pattern = "*",
@@ -25,7 +25,7 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 		vim.highlight.on_yank({ higroup = "IncSearch", timeout = 500 })
 	end,
 })
-vim.api.nvim_create_autocmd("BufWritePre", {
+autocmd("BufWritePre", {
 	pattern = "*",
 	callback = function(args)
 		require("conform").format({ bufnr = args.buf })
@@ -39,7 +39,9 @@ map("n", "<C-l>", "<C-w>l", { desc = "switch window right" })
 map("n", "<C-j>", "<C-w>j", { desc = "switch window down" })
 map("n", "<C-k>", "<C-w>k", { desc = "switch window up" })
 -- VIM maps
+map("n", "K", vim.lsp.buf.hover)
 map("n", "<leader>/", "gcc", { desc = "toggle comment", remap = true })
+map("v", "<leader>/", "gc", { desc = "toggle comment", remap = true })
 map("n", "<C-s>", "<cmd>write<CR>", { desc = "save" })
 map("n", "<Esc>", "<cmd>noh<CR>", { desc = "clear highlights" })
 map("n", "<leader>rr", "<cmd>restart<CR>", { desc = "restart" })
@@ -51,7 +53,6 @@ map("n", "<leader>td", function()
 	local diag = require("tiny-inline-diagnostic")
 	diag.toggle()
 end, { desc = "toggle diagnostic" })
-map("n", "<leader>z", "<cmd>ZenMode<CR>", { desc = "toggle zen mode" })
 -- Declare Packages.
 vim.pack.add({
 	-- Theme
@@ -66,7 +67,6 @@ vim.pack.add({
 	"https://github.com/neovim/nvim-lspconfig",
 	-- The true essentials
 	{ src = "https://github.com/ThePrimeagen/harpoon", version = "harpoon2" },
-	"https://github.com/pohlrabi404/compile.nvim",
 	"https://github.com/nvim-tree/nvim-tree.lua",
 	"https://github.com/OXY2DEV/markview.nvim",
 	"https://github.com/stevearc/conform.nvim",
@@ -80,8 +80,7 @@ vim.pack.add({
 	-- AI
 	"https://github.com/supermaven-inc/supermaven-nvim",
 	-- Trying out
-	"https://github.com/Olical/conjure",
-	"https://github.com/folke/zen-mode.nvim",
+	-- "https://github.com/Olical/conjure",
 })
 
 -- Setup Plugins
@@ -110,14 +109,12 @@ require("nvim-treesitter").setup({
 	highlight = { enable = true, use_languagetree = true },
 	indent = { enable = true },
 })
-
 --FZF LUA
 require("fzf-lua").setup({ "fzf-native" })
 -- Diagnostics
 require("tiny-inline-diagnostic").setup({})
 -- Mason
 require("mason").setup({})
-
 -- Neovim Tree
 local HEIGHT_RATIO = 0.8
 local WIDTH_RATIO = 0.5
@@ -168,12 +165,6 @@ require("mini.snippets").setup({
 	},
 })
 require("mini.snippets").start_lsp_server()
--- Testing Compile !! -------------------
-require("compile").setup({
-	cmds = {
-		default = "cargo build",
-	},
-})
 -- LUALINE ----------------------------
 require("lualine").setup({
 	sections = {
@@ -210,3 +201,4 @@ vim.lsp.config("lua_ls", {
 	},
 })
 vim.lsp.enable({ "lua_ls", "rust_analyzer", "rnix_lsp", "zls" })
+require("compile").setup({})
