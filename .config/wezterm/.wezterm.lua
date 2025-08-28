@@ -1,16 +1,20 @@
 local wezterm = require("wezterm")
 local act = require("wezterm").action
 local config = wezterm.config_builder()
-config.color_scheme = "Wez"
+
 local bar = wezterm.plugin.require("https://github.com/adriankarlen/bar.wezterm")
 bar.apply_to_config(config)
+
+local vauge = require("vauge")
+config.colors = vauge.colors()
+
 config.leader = { key = "Space", mods = "CTRL", timeout_milliseconds = 1500 }
 config.keys = {
 	-- Copy mode
 	{ key = "[", mods = "LEADER", action = act.ActivateCopyMode },
 	-- Split panes
-	{ key = "-", mods = "LEADER", action = act.SplitHorizontal({ domain = "CurrentPaneDomain" }) },
-	{ key = "\\", mods = "LEADER", action = act.SplitVertical({ domain = "CurrentPaneDomain" }) },
+	{ key = "s", mods = "LEADER", action = act.SplitHorizontal({ domain = "CurrentPaneDomain" }) },
+	{ key = "v", mods = "LEADER", action = act.SplitVertical({ domain = "CurrentPaneDomain" }) },
 	-- Pane navigation (h/j/k/l)
 	{ key = "h", mods = "LEADER", action = act.ActivatePaneDirection("Left") },
 	{ key = "j", mods = "LEADER", action = act.ActivatePaneDirection("Down") },
@@ -27,9 +31,9 @@ config.keys = {
 		mods = "LEADER",
 		action = act.SpawnTab("CurrentPaneDomain"),
 	},
-	{ key = "x", mods = "LEADER", action = act.CloseCurrentPane({ confirm = false }) },
-	{ key = "n", mods = "LEADER", action = act.ActivateTabRelative(1) },
-	{ key = "p", mods = "LEADER", action = act.ActivateTabRelative(-1) },
+	{ key = "w", mods = "LEADER", action = act.CloseCurrentPane({ confirm = false }) },
+	{ key = "i", mods = "LEADER", action = act.ActivateTabRelative(1) },
+	{ key = "o", mods = "LEADER", action = act.ActivateTabRelative(-1) },
 	{
 		key = ",",
 		mods = "LEADER",
@@ -46,28 +50,6 @@ config.keys = {
 	{ key = "2", mods = "LEADER", action = act.ActivateTab(1) },
 	{ key = "3", mods = "LEADER", action = act.ActivateTab(2) },
 	{ key = "Tab", mods = "LEADER", action = act.ActivateTabRelative(1) },
-	{
-		key = "s",
-		mods = "LEADER",
-		action = wezterm.action.PromptInputLine({
-			description = "Enter name for new workspace",
-			action = wezterm.action_callback(function(window, pane, line)
-				if line then
-					window:perform_action(
-						wezterm.action.SwitchToWorkspace({
-							name = line,
-						}),
-						pane
-					)
-				end
-			end),
-		}),
-	},
-	{
-		key = "l",
-		mods = "LEADER",
-		action = wezterm.action.ShowLauncherArgs({ flags = "WORKSPACES" }),
-	},
 }
 config.window_padding = {
 	left = 0,
