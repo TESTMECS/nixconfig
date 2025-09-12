@@ -1,7 +1,5 @@
 { config, pkgs, stable, unstable, ... }: {
-  imports = [ ];
   wsl.enable = true;
-  wsl.defaultUser = "testme";
   time.timeZone = "America/New_York";
   console.font = "Fira Code Nerd Font";
   i18n.defaultLocale = "en_US.UTF-8";

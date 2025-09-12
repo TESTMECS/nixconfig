@@ -1,5 +1,4 @@
 { config, pkgs, ... }:
-
 {
   imports = [ ];
   environment.shellAliases = {
@@ -28,7 +27,7 @@
   };
   programs.fish.enable = true;
   programs.bash.completion.enable = true;
-  environment.shellInit = "fish";
+	
   networking.firewall.enable = false;
   services.openssh.enable = true;
 }
