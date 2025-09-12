@@ -9,14 +9,12 @@
   environment.systemPackages = with stable; [
     # === shell ===
     git
+    gh
     bash
     xclip
-    libgcc
-    libgccjit
     clang
     curl
     wget
-    gh
     unzip
     # === Rust ===
     ripgrep
@@ -35,9 +33,9 @@
     # === neovim ===
     neovim
     # === Web ===
-    nodejs
+    bun
     pnpm
-    unstable.cargo
+    unstable.cargo # for new projects
   ];
   environment.shells = with stable; [ bash fish ];
   programs.nix-ld.enable = true;
