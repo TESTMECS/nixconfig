@@ -21,24 +21,21 @@
     fzf
     broot
     eza
-    jujutsu
-    just
     procs
     dua
     # === shell ===
-    fish
+		fish
+		nushell
     starship
-    # === neovim ===
     # neovim
 		neovim-nightly
     # === Web ===
     bun
     pnpm
-    unstable.cargo # for new projects
+    unstable.cargo
 		unstable.rustup
-		luajitPackages.fennel
   ];
-  environment.shells = with stable; [ bash fish ];
+  environment.shells = with stable; [ bash fish nushell ];
   programs.nix-ld.enable = true;
   system.stateVersion = "24.11";
 }

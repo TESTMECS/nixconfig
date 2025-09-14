@@ -27,7 +27,6 @@
   };
   programs.fish.enable = true;
   programs.bash.completion.enable = true;
-	
   networking.firewall.enable = false;
   services.openssh.enable = true;
 }
