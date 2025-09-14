@@ -22,10 +22,10 @@
 					./hosts/common.nix
           nixos-wsl.nixosModules.default
         ];
-        specialArgs = {
+        specialArgs =  {
           stable = inputs."nixpkgs-stable".legacyPackages.x86_64-linux;
           unstable = nixpkgs.legacyPackages.x86_64-linux;
-					neovim-overlay = inputs."neovim-nightly-overlay".packages.default;
+					neovim-nightly = inputs."neovim-nightly-overlay".packages.x86_64-linux.default;
         };
       };
     };

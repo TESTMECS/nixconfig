@@ -1,4 +1,4 @@
-{ config, pkgs, stable, unstable, ... }: {
+{ config, pkgs, stable, unstable, neovim-nightly, ... }: {
   wsl.enable = true;
   time.timeZone = "America/New_York";
   console.font = "Fira Code Nerd Font";
@@ -29,11 +29,14 @@
     fish
     starship
     # === neovim ===
-    neovim
+    # neovim
+		neovim-nightly
     # === Web ===
     bun
     pnpm
     unstable.cargo # for new projects
+		unstable.rustup
+		luajitPackages.fennel
   ];
   environment.shells = with stable; [ bash fish ];
   programs.nix-ld.enable = true;
