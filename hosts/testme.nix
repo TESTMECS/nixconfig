@@ -8,7 +8,6 @@
     # === shell ===
     git
     gh
-    bash
     xclip
     clang
     curl
@@ -23,7 +22,10 @@
     eza
     procs
     dua
+		unstable.cargo
+		unstable.rustup
     # === shell ===
+		bash
 		fish
 		nushell
     starship
@@ -32,8 +34,8 @@
     # === Web ===
     bun
     pnpm
-    unstable.cargo
-		unstable.rustup
+		# === Python ===
+		uv
   ];
   environment.shells = with stable; [ bash fish nushell ];
   programs.nix-ld.enable = true;
