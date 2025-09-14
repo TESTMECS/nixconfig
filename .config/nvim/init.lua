@@ -201,4 +201,3 @@ vim.lsp.config("lua_ls", {
 	},
 })
 vim.lsp.enable({ "lua_ls", "rust_analyzer", "rnix_lsp", "zls" })
-require("compile").setup({})
