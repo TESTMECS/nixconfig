@@ -20,6 +20,7 @@
     fzf
     broot
     eza
+		jujutsu
     procs
     dua
 		unstable.cargo
@@ -35,6 +36,9 @@
     pnpm
 		# === Python ===
 		uv
+		(pkgs.writeShellScriptBin "testme_build" ''
+			sudo nixos-rebuild switch --flake .#testme
+		'')
   ];
   environment.shells = with stable; [ bash nushell ];
   programs.nix-ld.enable = true;
