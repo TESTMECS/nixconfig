@@ -59,10 +59,10 @@ map("n", "<leader>td", function()
 end, { desc = "toggle diagnostic" })
 --- @Packages
 vim.pack.add({
-	--- Theme
+	---@plugin: Theme
 	"https://github.com/vague2k/vague.nvim",
 	"https://github.com/nvim-lualine/lualine.nvim",
-	--- Essentials
+	---@plugin: Essentials
 	{ src = "https://github.com/nvim-treesitter/nvim-treesitter", version = "main" },
 	{ src = "https://github.com/nvim-lua/plenary.nvim", version = "v0.1.4" },
 	"https://github.com/ibhagwan/fzf-lua",
@@ -73,14 +73,15 @@ vim.pack.add({
 	"https://github.com/OXY2DEV/markview.nvim",
 	"https://github.com/stevearc/conform.nvim",
 	"https://github.com/pohlrabi404/compile.nvim",
-	--completion
+	---@plugin: completion
 	"https://github.com/echasnovski/mini.completion",
+	"https://github.com/windwp/nvim-autopairs",
 	"https://github.com/echasnovski/mini.icons",
 	"https://github.com/echasnovski/mini.snippets",
 	"https://github.com/rachartier/tiny-inline-diagnostic.nvim",
 	"https://github.com/rafamadriz/friendly-snippets",
 	{ src = "https://github.com/L3MON4D3/LuaSnip", version = "v2.4.0" },
-	-- AI
+	---@plugin: AI
 	"https://github.com/supermaven-inc/supermaven-nvim",
 })
 
@@ -111,6 +112,8 @@ require("nvim-treesitter").setup({
 })
 --- @plugins: compile
 require("compile").setup({})
+--- @plugins: nvim-autopairs
+require("nvim-autopairs").setup({})
 --- @plugins: fzf-lua
 require("fzf-lua").setup({ "fzf-native" })
 --- @plugins: tiny-inline-diagnostic
