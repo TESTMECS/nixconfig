@@ -9,7 +9,7 @@
     git
     gh
     xclip
-    clang
+		clang
     curl
     wget
     unzip
@@ -26,7 +26,6 @@
 		unstable.rustup
     # === shell ===
 		bash
-		fish
 		nushell
     starship
     # neovim
@@ -37,7 +36,7 @@
 		# === Python ===
 		uv
   ];
-  environment.shells = with stable; [ bash fish nushell ];
+  environment.shells = with stable; [ bash nushell ];
   programs.nix-ld.enable = true;
   system.stateVersion = "24.11";
 }

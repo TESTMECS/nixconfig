@@ -1,7 +1,8 @@
+--- @globals
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 vim.g.have_nerd_font = true
--- Options
+--- @options
 vim.o.autoindent = true
 vim.o.smartindent = true
 vim.o.shiftwidth = 2
@@ -15,7 +16,7 @@ vim.o.scrolloff = 10
 vim.o.cursorline = true
 vim.o.signcolumn = "yes"
 vim.o.clipboard = "unnamedplus"
--- Commands
+--- @commands
 local autocmd = vim.api.nvim_create_autocmd
 autocmd("TextYankPost", {
 	group = vim.api.nvim_create_augroup("highlight_yank", {}),
@@ -31,45 +32,47 @@ autocmd("BufWritePre", {
 		require("conform").format({ bufnr = args.buf })
 	end,
 })
--- Key maps
+
+--- @keymaps
 local map = vim.keymap.set
--- Windows
+--- @keymaps: windows
 map("n", "<C-h>", "<C-w>h", { desc = "switch window left" })
 map("n", "<C-l>", "<C-w>l", { desc = "switch window right" })
 map("n", "<C-j>", "<C-w>j", { desc = "switch window down" })
 map("n", "<C-k>", "<C-w>k", { desc = "switch window up" })
--- VIM maps
+--- @keymaps: vim
 map("n", "K", vim.lsp.buf.hover)
 map("n", "<leader>/", "gcc", { desc = "toggle comment", remap = true })
 map("v", "<leader>/", "gc", { desc = "toggle comment", remap = true })
 map("n", "<C-s>", "<cmd>write<CR>", { desc = "save" })
 map("n", "<Esc>", "<cmd>noh<CR>", { desc = "clear highlights" })
 map("n", "<leader>rr", "<cmd>restart<CR>", { desc = "restart" })
--- Plugins.
-map("n", "<leader>ff", "<cmd>FzfLua files<CR>", { desc = "Find Files" })
+--- @keymaps: fzf-lua
+map("n", "<leader>ff", "<cmd>FzfLua<CR>", { desc = "Find Files" })
 map("n", "<leader>fk", "<cmd>FzfLua keymaps<CR>", { desc = "Find Keymaps" })
+--- @keymaps: nvim-tree
 map("n", "<C-n>", "<cmd>NvimTreeToggle<CR>", { desc = "File Tree" })
+--- @keymaps: tiny-inline-diagnostic
 map("n", "<leader>td", function()
 	local diag = require("tiny-inline-diagnostic")
 	diag.toggle()
 end, { desc = "toggle diagnostic" })
--- Declare Packages.
+--- @Packages
 vim.pack.add({
-	-- Theme
+	--- Theme
 	"https://github.com/vague2k/vague.nvim",
 	"https://github.com/nvim-lualine/lualine.nvim",
-	-- Essentials
+	--- Essentials
 	{ src = "https://github.com/nvim-treesitter/nvim-treesitter", version = "main" },
 	{ src = "https://github.com/nvim-lua/plenary.nvim", version = "v0.1.4" },
 	"https://github.com/ibhagwan/fzf-lua",
 	"https://github.com/nvim-tree/nvim-web-devicons",
 	"https://github.com/mason-org/mason.nvim",
 	"https://github.com/neovim/nvim-lspconfig",
-	-- The true essentials
-	{ src = "https://github.com/ThePrimeagen/harpoon", version = "harpoon2" },
 	"https://github.com/nvim-tree/nvim-tree.lua",
 	"https://github.com/OXY2DEV/markview.nvim",
 	"https://github.com/stevearc/conform.nvim",
+	"https://github.com/pohlrabi404/compile.nvim",
 	--completion
 	"https://github.com/echasnovski/mini.completion",
 	"https://github.com/echasnovski/mini.icons",
@@ -79,14 +82,12 @@ vim.pack.add({
 	{ src = "https://github.com/L3MON4D3/LuaSnip", version = "v2.4.0" },
 	-- AI
 	"https://github.com/supermaven-inc/supermaven-nvim",
-	-- Trying out
-	-- "https://github.com/Olical/conjure",
 })
 
--- Setup Plugins
--- Colorscheme
+--- @plugins
+--- @colorscheme
 vim.cmd([[colorscheme vague]])
--- Treesitter.
+--- @plugins: treesitter
 require("nvim-treesitter").setup({
 	ensure_installed = {
 		"lua",
@@ -104,25 +105,27 @@ require("nvim-treesitter").setup({
 		"fennel",
 		"vim",
 		"vimdoc",
-		"janet_simple",
 	},
 	highlight = { enable = true, use_languagetree = true },
 	indent = { enable = true },
 })
---FZF LUA
+--- @plugins: compile
+require("compile").setup({})
+--- @plugins: fzf-lua
 require("fzf-lua").setup({ "fzf-native" })
--- Diagnostics
+--- @plugins: tiny-inline-diagnostic
 require("tiny-inline-diagnostic").setup({})
--- Mason
+--- @plugins: mason
 require("mason").setup({})
--- Neovim Tree
-local HEIGHT_RATIO = 0.8
-local WIDTH_RATIO = 0.5
+--- @plugins: nvim-tree
+
 require("nvim-tree").setup({
 	view = {
 		float = {
 			enable = true,
 			open_win_config = function()
+				local HEIGHT_RATIO = 0.8
+				local WIDTH_RATIO = 0.5
 				local screen_w = vim.opt.columns:get()
 				local screen_h = vim.opt.lines:get() - vim.opt.cmdheight:get()
 				local window_w = screen_w * WIDTH_RATIO
@@ -142,17 +145,18 @@ require("nvim-tree").setup({
 			end,
 		},
 		width = function()
+			local WIDTH_RATIO = 0.5
 			return math.floor(vim.opt.columns:get() * WIDTH_RATIO)
 		end,
 	},
 })
-
--- Markview
+--- @plugins: markview
 require("markview").setup({})
--- Supermaven
+--- @plugins: supermaven-nvim
 require("supermaven-nvim").setup({})
--- Mini --------------------------------
+--- @plugins: mini.completion
 require("mini.completion").setup({})
+--- @plugins: mini.snippets
 local gen_loader = require("mini.snippets").gen_loader
 require("mini.snippets").setup({
 	snippets = {
@@ -165,19 +169,13 @@ require("mini.snippets").setup({
 	},
 })
 require("mini.snippets").start_lsp_server()
--- LUALINE ----------------------------
+--- @plugins: lualine
 require("lualine").setup({
 	sections = {
 		lualine_y = { "lsp_status" },
 	},
 })
--- Harpoon ----------------------------
-local harpoon = require("harpoon")
-harpoon:setup()
-vim.keymap.set("n", "<leader>h", function()
-	harpoon.ui:toggle_quick_menu(harpoon:list())
-end)
--- Conform ----------------------------
+--- @plugins: conform
 require("conform").setup({
 	formatters_by_ft = {
 		lua = { "stylua" },
@@ -186,11 +184,10 @@ require("conform").setup({
 		nix = { "nixfmt" },
 	},
 })
--- LSP --------------------------------
+--- @plugins: lsp
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 local cmp_cap = require("mini.completion").get_lsp_capabilities()
 vim.tbl_deep_extend("force", capabilities, cmp_cap)
--- Lsp config
 vim.lsp.config("lua_ls", {
 	settings = {
 		Lua = {
