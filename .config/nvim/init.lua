@@ -104,14 +104,20 @@ require("nvim-treesitter").setup({
 		"html",
 		"go",
 		"fennel",
+		"v",
 		"vim",
 		"vimdoc",
 	},
+	cmds = { "TSInstall", "TSBufEnable", "TSBufDisable", "TSModuleInfo" },
 	highlight = { enable = true, use_languagetree = true },
 	indent = { enable = true },
 })
 --- @plugins: compile
-require("compile").setup({})
+require("compile").setup({
+	cmds = {
+		default = "v build",
+	},
+})
 --- @plugins: nvim-autopairs
 require("nvim-autopairs").setup({})
 --- @plugins: fzf-lua
@@ -185,6 +191,7 @@ require("conform").setup({
 		rust = { "rustfmt" },
 		go = { "gopls" },
 		nix = { "nixfmt" },
+		python = { "ruff" },
 	},
 })
 --- @plugins: lsp
@@ -199,5 +206,9 @@ vim.lsp.config("lua_ls", {
 			},
 		},
 	},
+})
+vim.lsp.config("vls", {
+	cmd = { "/home/nixos/.vmodules/vls/vls" },
+	filetypes = { "v" },
 })
 vim.lsp.enable({ "lua_ls", "rust_analyzer", "rnix_lsp", "zls" })

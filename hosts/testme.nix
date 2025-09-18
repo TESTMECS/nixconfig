@@ -27,7 +27,7 @@
 		unstable.rustup
     # === shell ===
 		bash
-		nushell
+		fish
     starship
     # neovim
 		neovim-nightly
@@ -40,7 +40,7 @@
 			sudo nixos-rebuild switch --flake .#testme
 		'')
   ];
-  environment.shells = with stable; [ bash nushell ];
+  environment.shells = with stable; [ bash fish ];
   programs.nix-ld.enable = true;
   system.stateVersion = "24.11";
 }
