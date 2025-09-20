@@ -47,6 +47,7 @@ map("v", "<leader>/", "gc", { desc = "toggle comment", remap = true })
 map("n", "<C-s>", "<cmd>write<CR>", { desc = "save" })
 map("n", "<Esc>", "<cmd>noh<CR>", { desc = "clear highlights" })
 map("n", "<leader>rr", "<cmd>restart<CR>", { desc = "restart" })
+map("n", "gd", vim.lsp.buf.definition, { noremap = true, silent = true, desc = "Go to definition" })
 --- @keymaps: fzf-lua
 map("n", "<leader>ff", "<cmd>FzfLua<CR>", { desc = "Find Files" })
 map("n", "<leader>fk", "<cmd>FzfLua keymaps<CR>", { desc = "Find Keymaps" })
