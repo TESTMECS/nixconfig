@@ -32,7 +32,6 @@ autocmd("BufWritePre", {
 		require("conform").format({ bufnr = args.buf })
 	end,
 })
-
 --- @keymaps
 local map = vim.keymap.set
 --- @keymaps: windows
@@ -49,8 +48,10 @@ map("n", "<Esc>", "<cmd>noh<CR>", { desc = "clear highlights" })
 map("n", "<leader>rr", "<cmd>restart<CR>", { desc = "restart" })
 map("n", "gd", vim.lsp.buf.definition, { noremap = true, silent = true, desc = "Go to definition" })
 --- @keymaps: fzf-lua
-map("n", "<leader>ff", "<cmd>FzfLua<CR>", { desc = "Find Files" })
+map("n", "<leader>ff", "<cmd>FzfLua files<CR>", { desc = "Find Files" })
 map("n", "<leader>fk", "<cmd>FzfLua keymaps<CR>", { desc = "Find Keymaps" })
+map("n", "<leader>fw", "<cmd>FzfLua live_grep<CR>", { desc = "Find Word" })
+map("n", "<leader>fc", "<cmd>FzfLua commands<CR>", { desc = "Find Commands" })
 --- @keymaps: nvim-tree
 map("n", "<C-n>", "<cmd>NvimTreeToggle<CR>", { desc = "File Tree" })
 --- @keymaps: tiny-inline-diagnostic
@@ -116,7 +117,7 @@ require("nvim-treesitter").setup({
 --- @plugins: compile
 require("compile").setup({
 	cmds = {
-		default = "v build",
+		default = "zig build",
 	},
 })
 --- @plugins: nvim-autopairs
