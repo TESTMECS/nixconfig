@@ -20,7 +20,6 @@
         modules = [
           ./hosts/testme.nix
 					./hosts/common.nix
-					./hosts/scripts.nix
           nixos-wsl.nixosModules.default
         ];
         specialArgs =  {

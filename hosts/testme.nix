@@ -34,6 +34,25 @@
     pnpm
 		# === Python ===
 		uv
+    # 
+	  # ===== Scripts ===== 
+		(pkgs.writeShellScriptBin "testme_build" ''
+			sudo nixos-rebuild switch --flake .#testme
+		'')
+		(pkgs.writeShellApplication {
+			name = "testme";
+			runtimeInputs = with pkgs; [
+				meow
+			];
+			text = ''meow'';
+		 })
+		(pkgs.writeShellApplication {
+			name = "just";
+			runtimeInputs = with pkgs; [
+				just
+			];
+			text = ''just --list'';
+		 })
   ];
   environment.shells = with stable; [ bash fish ];
   programs.nix-ld.enable = true;
