@@ -5,6 +5,8 @@
     ll = "eza -l";
     l = "eza -l";
     la = "eza -la";
+		br = "broot";
+		ps = "procs";
     cat = "bat";
     grep = "rg";
     find = "fd";
@@ -25,6 +27,9 @@
       };
     };
   };
+	environment.shellInit = ''
+		bash && testme
+	'';
   programs.bash.completion.enable = true;
   networking.firewall.enable = false;
   services.openssh.enable = true;

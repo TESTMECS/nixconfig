@@ -1,4 +1,4 @@
-{ config, pkgs, stable, unstable, neovim-nightly, ... }: {
+{ config, pkgs, stable, unstable, neovim-nightly,... }: {
   wsl.enable = true;
   time.timeZone = "America/New_York";
   console.font = "Fira Code Nerd Font";
@@ -9,7 +9,6 @@
     git
     gh
     xclip
-		clang
     curl
     wget
     unzip
@@ -20,7 +19,6 @@
     fzf
     broot
     eza
-		jujutsu
     procs
     dua
 		unstable.cargo
@@ -36,9 +34,6 @@
     pnpm
 		# === Python ===
 		uv
-		(pkgs.writeShellScriptBin "testme_build" ''
-			sudo nixos-rebuild switch --flake .#testme
-		'')
   ];
   environment.shells = with stable; [ bash fish ];
   programs.nix-ld.enable = true;
