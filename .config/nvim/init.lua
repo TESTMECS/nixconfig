@@ -52,6 +52,14 @@ map("n", "<leader>ff", "<cmd>FzfLua files<CR>", { desc = "Find Files" })
 map("n", "<leader>fk", "<cmd>FzfLua keymaps<CR>", { desc = "Find Keymaps" })
 map("n", "<leader>fw", "<cmd>FzfLua live_grep<CR>", { desc = "Find Word" })
 map("n", "<leader>fc", "<cmd>FzfLua commands<CR>", { desc = "Find Commands" })
+--- @keymaps: neowiki
+map("n", "<leader>ww", "<cmd>lua require('neowiki').open_wiki_floating('vault')<CR>", { desc = "Open Wiki" })
+map(
+	"n",
+	"<leader>wf",
+	"<cmd>lua require('fzf-lua').files({ cwd = '/mnt/c/Users/Superuser/MainVault' })<CR>",
+	{ desc = "Find Files" }
+)
 --- @keymaps: nvim-tree
 map("n", "<C-n>", "<cmd>NvimTreeToggle<CR>", { desc = "File Tree" })
 --- @keymaps: tiny-inline-diagnostic
@@ -75,6 +83,7 @@ vim.pack.add({
 	"https://github.com/OXY2DEV/markview.nvim",
 	"https://github.com/stevearc/conform.nvim",
 	"https://github.com/pohlrabi404/compile.nvim",
+	"https://github.com/echaya/neowiki.nvim",
 	---@plugin: completion
 	"https://github.com/echasnovski/mini.completion",
 	"https://github.com/windwp/nvim-autopairs",
@@ -83,6 +92,7 @@ vim.pack.add({
 	"https://github.com/rachartier/tiny-inline-diagnostic.nvim",
 	"https://github.com/rafamadriz/friendly-snippets",
 	{ src = "https://github.com/L3MON4D3/LuaSnip", version = "v2.4.0" },
+	"https://github.com/janet-lang/janet.vim", -- janet
 	---@plugin: AI
 	"https://github.com/supermaven-inc/supermaven-nvim",
 })
@@ -94,25 +104,30 @@ vim.cmd([[colorscheme vague]])
 require("nvim-treesitter").setup({
 	ensure_installed = {
 		"lua",
-		"zig",
-		"rust",
 		"typescript",
 		"javascript",
 		"markdown",
 		"json",
 		"nix",
+		"janet_simple",
 		"bash",
-		"nu",
 		"html",
 		"go",
 		"fennel",
-		"v",
 		"vim",
 		"vimdoc",
 	},
 	cmds = { "TSInstall", "TSBufEnable", "TSBufDisable", "TSModuleInfo" },
 	highlight = { enable = true, use_languagetree = true },
 	indent = { enable = true },
+})
+--- @plugins: neowiki
+require("neowiki").setup({
+	wiki_dirs = {
+		name = "vault",
+		path = "/mnt/c/Users/Superuser/MainVault/",
+	},
+	index_file = "Index.md",
 })
 --- @plugins: compile
 require("compile").setup({
@@ -213,4 +228,4 @@ vim.lsp.config("vls", {
 	cmd = { "/home/nixos/.vmodules/vls/vls" },
 	filetypes = { "v" },
 })
-vim.lsp.enable({ "lua_ls", "rust_analyzer", "rnix_lsp", "zls" })
+vim.lsp.enable({ "lua_ls", "rnix_lsp", "gopls" })
