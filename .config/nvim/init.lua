@@ -206,7 +206,7 @@ require("conform").setup({
 	formatters_by_ft = {
 		lua = { "stylua" },
 		rust = { "rustfmt" },
-		go = { "gopls" },
+		go = { "go fmt" },
 		nix = { "nixfmt" },
 		python = { "ruff" },
 	},
@@ -224,8 +224,4 @@ vim.lsp.config("lua_ls", {
 		},
 	},
 })
-vim.lsp.config("vls", {
-	cmd = { "/home/nixos/.vmodules/vls/vls" },
-	filetypes = { "v" },
-})
-vim.lsp.enable({ "lua_ls", "rnix_lsp", "gopls" })
+vim.lsp.enable({ "lua_ls", "rnix_lsp", "gopls", "ruff", "clangd", "oxlint", "ols", "zls" })
