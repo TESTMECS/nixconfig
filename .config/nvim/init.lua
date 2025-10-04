@@ -224,4 +224,4 @@ vim.lsp.config("lua_ls", {
 		},
 	},
 })
-vim.lsp.enable({ "lua_ls", "rnix_lsp", "gopls", "ruff", "clangd", "oxlint", "ols", "zls" })
+vim.lsp.enable({ "lua_ls", "rnix_lsp", "gopls", "ruff", "oxlint", "ols", "zls" })
