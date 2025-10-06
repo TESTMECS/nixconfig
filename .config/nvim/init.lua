@@ -209,12 +209,35 @@ require("conform").setup({
 		go = { "go fmt" },
 		nix = { "nixfmt" },
 		python = { "ruff" },
+		javascript = { "prettier" },
+		c = { "clang-format" },
 	},
 })
 --- @plugins: lsp
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 local cmp_cap = require("mini.completion").get_lsp_capabilities()
 vim.tbl_deep_extend("force", capabilities, cmp_cap)
+--- @lspconfig Clangd
+vim.lsp.config("clangd", {
+	settings = {
+		clangd = {
+			cmd = {
+				"clangd",
+				"--background-index",
+				"--clang-tidy",
+				"--header-insertion=iwyu",
+				"--completion-style=detailed",
+				"--function-arg-placeholders",
+				"--fallback-style=llvm",
+			},
+			root_markers = {
+				".git",
+				".clangd",
+			},
+		},
+	},
+})
+--- @lspconfig Lua_ls
 vim.lsp.config("lua_ls", {
 	settings = {
 		Lua = {
@@ -224,4 +247,14 @@ vim.lsp.config("lua_ls", {
 		},
 	},
 })
-vim.lsp.enable({ "lua_ls", "rnix_lsp", "gopls", "ruff", "oxlint", "ols", "zls" })
+--- @lspconfig ocamllsp
+vim.lsp.enable("ocamllsp", {
+	settings = {
+		ocamllsp = {
+			cmd = { "ocaml-language-server", "--stdio" },
+			filetypes = { "ocaml", "menhir", "ocamlinterface", "ocamllex", "reason", "dune" },
+			root_markers = { "*.opam", "esy.json", "package.json", ".git", "dune-project", "dune-workspace" },
+		},
+	},
+})
+vim.lsp.enable({ "lua_ls", "rnix_lsp", "gopls", "ruff", "eslint_d", "zls", "deno", "clangd" })
