@@ -13,6 +13,7 @@
     wget
     unzip
     # === Rust ===
+		just
     ripgrep
     fd
     bat
@@ -29,12 +30,6 @@
     starship
     # neovim
 		neovim-nightly
-    # === Web ===
-    bun
-    pnpm
-		# === Python ===
-		uv
-    # 
 	  # ===== Scripts ===== 
 		(pkgs.writeShellScriptBin "testme_build" ''
 			sudo nixos-rebuild switch --flake .#testme
@@ -45,13 +40,6 @@
 				meow
 			];
 			text = ''meow'';
-		 })
-		(pkgs.writeShellApplication {
-			name = "just";
-			runtimeInputs = with pkgs; [
-				just
-			];
-			text = ''just --list'';
 		 })
   ];
   environment.shells = with stable; [ bash fish ];

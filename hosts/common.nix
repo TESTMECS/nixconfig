@@ -16,6 +16,7 @@
     EDITOR = "nvim";
     MANPAGER = "nvim +Man!";
     XDG_CONFIG_HOME = "$HOME/.config/";
+		VAULT_PATH = "/mnt/c/Users/Superuser/MainVault";
   };
   programs.git = {
     enable = true;
@@ -28,8 +29,9 @@
     };
   };
 	environment.shellInit = ''
-		bash && testme
+		fish && testme
 	'';
+	programs.fish.enable = true;
   programs.bash.completion.enable = true;
   networking.firewall.enable = false;
   services.openssh.enable = true;

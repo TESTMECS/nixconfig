@@ -1,3 +1,14 @@
+--- @key
+--- @globals
+--- @options
+--- @commands
+--- @keymaps
+--- @Packages : Vim Pack URLS
+--- @colorscheme
+--- @plugins : Configurations
+--- @lspconfig
+--- @endkey
+-----------------
 --- @globals
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
@@ -34,11 +45,15 @@ autocmd("BufWritePre", {
 })
 --- @keymaps
 local map = vim.keymap.set
+
 --- @keymaps: windows
 map("n", "<C-h>", "<C-w>h", { desc = "switch window left" })
 map("n", "<C-l>", "<C-w>l", { desc = "switch window right" })
 map("n", "<C-j>", "<C-w>j", { desc = "switch window down" })
 map("n", "<C-k>", "<C-w>k", { desc = "switch window up" })
+
+map("n", "<leader>tt", "<cmd>tabn<CR>", { desc = "switch tab" })
+
 --- @keymaps: vim
 map("n", "K", vim.lsp.buf.hover)
 map("n", "<leader>/", "gcc", { desc = "toggle comment", remap = true })
@@ -46,20 +61,26 @@ map("v", "<leader>/", "gc", { desc = "toggle comment", remap = true })
 map("n", "<C-s>", "<cmd>write<CR>", { desc = "save" })
 map("n", "<Esc>", "<cmd>noh<CR>", { desc = "clear highlights" })
 map("n", "<leader>rr", "<cmd>restart<CR>", { desc = "restart" })
-map("n", "gd", vim.lsp.buf.definition, { noremap = true, silent = true, desc = "Go to definition" })
+map("n", "<leader>gd", vim.lsp.buf.definition, { noremap = true, silent = true, desc = "Go to definition" })
+
 --- @keymaps: fzf-lua
 map("n", "<leader>ff", "<cmd>FzfLua files<CR>", { desc = "Find Files" })
 map("n", "<leader>fk", "<cmd>FzfLua keymaps<CR>", { desc = "Find Keymaps" })
 map("n", "<leader>fw", "<cmd>FzfLua live_grep<CR>", { desc = "Find Word" })
 map("n", "<leader>fc", "<cmd>FzfLua commands<CR>", { desc = "Find Commands" })
+
 --- @keymaps: neowiki
-map("n", "<leader>ww", "<cmd>lua require('neowiki').open_wiki_floating('vault')<CR>", { desc = "Open Wiki" })
-map(
-	"n",
-	"<leader>wf",
-	"<cmd>lua require('fzf-lua').files({ cwd = '/mnt/c/Users/Superuser/MainVault' })<CR>",
-	{ desc = "Find Files" }
-)
+map("n", "<leader>ww", function()
+	local wiki = require("neowiki")
+	wiki.open_wiki_new_tab("vault")
+end, { desc = "Open Wiki" })
+
+--- @keymaps: neowiki search
+map("n", "<leader>wf", function()
+	require("fzf-lua").files({
+		cwd = vim.fn.getenv("VAULT_PATH"),
+	})
+end, { desc = "Find Files" })
 --- @keymaps: nvim-tree
 map("n", "<C-n>", "<cmd>NvimTreeToggle<CR>", { desc = "File Tree" })
 --- @keymaps: tiny-inline-diagnostic
@@ -67,6 +88,7 @@ map("n", "<leader>td", function()
 	local diag = require("tiny-inline-diagnostic")
 	diag.toggle()
 end, { desc = "toggle diagnostic" })
+
 --- @Packages
 vim.pack.add({
 	---@plugin: Theme
@@ -82,7 +104,7 @@ vim.pack.add({
 	"https://github.com/nvim-tree/nvim-tree.lua",
 	"https://github.com/OXY2DEV/markview.nvim",
 	"https://github.com/stevearc/conform.nvim",
-	"https://github.com/pohlrabi404/compile.nvim",
+	"https://github.com/ej-shafran/compile-mode.nvim",
 	"https://github.com/echaya/neowiki.nvim",
 	---@plugin: completion
 	"https://github.com/echasnovski/mini.completion",
@@ -92,12 +114,11 @@ vim.pack.add({
 	"https://github.com/rachartier/tiny-inline-diagnostic.nvim",
 	"https://github.com/rafamadriz/friendly-snippets",
 	{ src = "https://github.com/L3MON4D3/LuaSnip", version = "v2.4.0" },
-	"https://github.com/janet-lang/janet.vim", -- janet
 	---@plugin: AI
 	"https://github.com/supermaven-inc/supermaven-nvim",
 })
-
---- @plugins
+--- @plugins: compile-mode
+vim.g.compile_mode = {}
 --- @colorscheme
 vim.cmd([[colorscheme vague]])
 --- @plugins: treesitter
@@ -109,11 +130,9 @@ require("nvim-treesitter").setup({
 		"markdown",
 		"json",
 		"nix",
-		"janet_simple",
 		"bash",
 		"html",
 		"go",
-		"fennel",
 		"vim",
 		"vimdoc",
 	},
@@ -125,15 +144,9 @@ require("nvim-treesitter").setup({
 require("neowiki").setup({
 	wiki_dirs = {
 		name = "vault",
-		path = "/mnt/c/Users/Superuser/MainVault/",
+		path = vim.fn.getenv("VAULT_PATH"),
 	},
 	index_file = "Index.md",
-})
---- @plugins: compile
-require("compile").setup({
-	cmds = {
-		default = "zig build",
-	},
 })
 --- @plugins: nvim-autopairs
 require("nvim-autopairs").setup({})
@@ -144,7 +157,6 @@ require("tiny-inline-diagnostic").setup({})
 --- @plugins: mason
 require("mason").setup({})
 --- @plugins: nvim-tree
-
 require("nvim-tree").setup({
 	view = {
 		float = {
