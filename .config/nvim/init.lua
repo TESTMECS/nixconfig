@@ -78,7 +78,7 @@ end, { desc = "Open Wiki" })
 --- @keymaps: neowiki search
 map("n", "<leader>wf", function()
 	require("fzf-lua").files({
-		cwd = vim.fn.getenv("VAULT_PATH"),
+		cwd = "/mnt/c/Users/Superuser/MainVault",
 	})
 end, { desc = "Find Files" })
 --- @keymaps: nvim-tree
@@ -144,7 +144,7 @@ require("nvim-treesitter").setup({
 require("neowiki").setup({
 	wiki_dirs = {
 		name = "vault",
-		path = vim.fn.getenv("VAULT_PATH"),
+		path = "/mnt/c/Users/Superuser/MainVault",
 	},
 	index_file = "Index.md",
 })
