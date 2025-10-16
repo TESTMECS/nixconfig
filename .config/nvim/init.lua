@@ -115,6 +115,7 @@ vim.pack.add({
 	"https://github.com/rachartier/tiny-inline-diagnostic.nvim",
 	"https://github.com/rafamadriz/friendly-snippets",
 	{ src = "https://github.com/L3MON4D3/LuaSnip", version = "v2.4.0" },
+	"https://github.com/bakpakin/fennel.vim",
 	---@plugin: AI
 	"https://github.com/supermaven-inc/supermaven-nvim",
 })
@@ -130,6 +131,7 @@ require("nvim-treesitter").setup({
 		"javascript",
 		"markdown",
 		"json",
+		"fennel",
 		"nix",
 		"bash",
 		"html",
@@ -250,6 +252,7 @@ vim.lsp.config("clangd", {
 		},
 	},
 })
+
 --- @lspconfig Lua_ls
 vim.lsp.config("lua_ls", {
 	settings = {
@@ -270,4 +273,4 @@ vim.lsp.enable("ocamllsp", {
 		},
 	},
 })
-vim.lsp.enable({ "lua_ls", "rnix_lsp", "gopls", "ruff", "eslint_d", "zls", "deno", "clangd" })
+vim.lsp.enable({ "lua_ls", "rnix_lsp", "gopls", "ruff", "eslint_d", "zls", "deno", "clangd", "rust_analyzer" })
