@@ -115,14 +115,31 @@ vim.pack.add({
 	"https://github.com/rachartier/tiny-inline-diagnostic.nvim",
 	"https://github.com/rafamadriz/friendly-snippets",
 	{ src = "https://github.com/L3MON4D3/LuaSnip", version = "v2.4.0" },
-	"https://github.com/bakpakin/fennel.vim",
+	"https://github.com/miikanissi/modus-themes.nvim",
 	---@plugin: AI
 	"https://github.com/supermaven-inc/supermaven-nvim",
 })
 --- @plugins: compile-mode
 vim.g.compile_mode = {}
 --- @colorscheme
-vim.cmd([[colorscheme vague]])
+require("modus-themes").setup({
+	style = "modus_operandi", -- Always use modus_operandi regardless of `vim.o.background`
+	variant = "tritanopia",
+	line_nr_column_background = false, -- Disable background color for line numbers
+	on_colors = function(colors)
+		colors.error = colors.red_faint -- Change error color to the "faint" variant
+	end,
+	on_highlights = function(highlight, color)
+		highlight.Boolean = { fg = color.yellow_warmer } -- Change Boolean highlight to use the green color
+		highlight.Keyword = { fg = color.gold, italic = true }
+		highlight.Function = { fg = color.magenta_warmer }
+		highlight.String = { fg = color.green_warmer }
+		highlight.Comment = { fg = color.rust }
+		highlight.Number = { fg = color.blue_warmer }
+		highlight.Visual = { bg = color.indigo }
+	end,
+})
+vim.cmd([[colorscheme modus_vivendi]])
 --- @plugins: treesitter
 require("nvim-treesitter").setup({
 	ensure_installed = {
@@ -131,7 +148,6 @@ require("nvim-treesitter").setup({
 		"javascript",
 		"markdown",
 		"json",
-		"fennel",
 		"nix",
 		"bash",
 		"html",
