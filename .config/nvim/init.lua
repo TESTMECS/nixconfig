@@ -137,6 +137,7 @@ require("modus-themes").setup({
 		highlight.Comment = { fg = color.rust }
 		highlight.Number = { fg = color.blue_warmer }
 		highlight.Visual = { bg = color.indigo }
+		highlight.Type = { fg = color.green_faint }
 	end,
 })
 vim.cmd([[colorscheme modus_vivendi]])
@@ -229,7 +230,12 @@ require("mini.snippets").start_lsp_server()
 --- @plugins: lualine
 require("lualine").setup({
 	sections = {
-		lualine_y = { "lsp_status" },
+		lualine_a = { "mode" },
+		lualine_b = { "branch" },
+		lualine_c = { "filename" },
+		lualine_x = nil,
+		lualine_y = nil,
+		lualine_z = nil,
 	},
 })
 --- @plugins: conform
