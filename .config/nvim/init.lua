@@ -89,6 +89,13 @@ map("n", "<leader>td", function()
 	local diag = require("tiny-inline-diagnostic")
 	diag.toggle()
 end, { desc = "toggle diagnostic" })
+--- @keymaps: Compile
+map("n", "<leader>cc", function()
+	local cmd = vim.fn.input("Compile: ")
+	if cmd ~= "" then
+		vim.cmd("Compile" .. " " .. cmd)
+	end
+end, { desc = "Compile with command input" })
 
 --- @Packages
 vim.pack.add({
