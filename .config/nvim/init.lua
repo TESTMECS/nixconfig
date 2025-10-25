@@ -122,22 +122,49 @@ vim.pack.add({
 --- @plugins: compile-mode
 vim.g.compile_mode = {}
 --- @colorscheme
+-- require("modus-themes").setup({
+-- 	style = "modus_vivendi", -- Use the dark base consistently
+-- 	variant = "deuteranopia", -- Balanced, subtle contrast variant
+-- 	line_nr_column_background = true, -- Helps anchor focus in the code gutter
+-- 	on_colors = function(colors)
+-- 		colors.error = colors.red_intense
+-- 		colors.bg_main = "#1b1d24" -- Custom background: deeper charcoal tone
+-- 		colors.fg_main = "#d6d6d6" -- Slightly desaturated foreground
+-- 	end,
+-- 	on_highlights = function(highlight, color)
+-- 		highlight.Boolean = { fg = color.blue_cooler, bold = true }
+-- 		highlight.Keyword = { fg = color.magenta_faint, italic = true }
+-- 		highlight.Function = { fg = color.cyan_cooler, bold = true }
+-- 		highlight.String = { fg = color.olive }
+-- 		highlight.Comment = { fg = color.maroon, italic = true }
+-- 		highlight.Number = { fg = color.magenta_cooler }
+-- 		highlight.Type = { fg = color.blue_warmer, italic = true }
+-- 		highlight.Visual = { bg = "#2a2f40" } -- Custom dimmed indigo background
+-- 		highlight.CursorLine = { bg = "#232733" } -- Helps navigation clarity
+-- 	end,
+-- })
 require("modus-themes").setup({
-	style = "modus_operandi", -- Always use modus_operandi regardless of `vim.o.background`
-	variant = "tritanopia",
-	line_nr_column_background = false, -- Disable background color for line numbers
+	style = "modus_vivendi", -- dark base for depth
+	variant = "tritanopia", -- good neutral contrast; tritanopia reduces harsh blues
+	line_nr_column_background = false,
 	on_colors = function(colors)
-		colors.error = colors.red_faint -- Change error color to the "faint" variant
+		colors.bg_main = "#141a16" -- deep forest green base
+		colors.fg_main = "#d2d8d2" -- light sage text
+		colors.error = colors.red_faint -- gentle red for errors
+		colors.warning = colors.yellow_faint
+		colors.success = colors.green_intense
 	end,
-	on_highlights = function(highlight, color)
-		highlight.Boolean = { fg = color.yellow_warmer } -- Change Boolean highlight to use the green color
-		highlight.Keyword = { fg = color.gold, italic = true }
-		highlight.Function = { fg = color.magenta_warmer }
-		highlight.String = { fg = color.green_warmer }
-		highlight.Comment = { fg = color.rust }
-		highlight.Number = { fg = color.blue_warmer }
-		highlight.Visual = { bg = color.indigo }
-		highlight.Type = { fg = color.green_faint }
+	on_highlights = function(hl, c)
+		hl.Boolean = { fg = c.green_intense, bold = true }
+		hl.Keyword = { fg = "#a4e2a8", italic = true } -- soft mint keywords
+		hl.Function = { fg = "#7ee787", bold = true } -- vibrant leaf green
+		hl.String = { fg = c.gold } -- yellow-green for contrast
+		hl.Comment = { fg = "#5a6f5a", italic = true } -- muted olive comments
+		hl.Number = { fg = "#8cd9a5" }
+		hl.Type = { fg = "#9ae5b0", italic = true }
+		hl.Constant = { fg = "#6de0c0" } -- cool cyan touch for variety
+		hl.Visual = { bg = "#203526" } -- deep green highlight
+		hl.CursorLine = { bg = "#1b241d" } -- subtle line emphasis
 	end,
 })
 vim.cmd([[colorscheme modus_vivendi]])
