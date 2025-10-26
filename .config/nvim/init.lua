@@ -52,7 +52,6 @@ map("n", "<C-h>", "<C-w>h", { desc = "switch window left" })
 map("n", "<C-l>", "<C-w>l", { desc = "switch window right" })
 map("n", "<C-j>", "<C-w>j", { desc = "switch window down" })
 map("n", "<C-k>", "<C-w>k", { desc = "switch window up" })
-
 map("n", "<leader>tt", "<cmd>tabn<CR>", { desc = "switch tab" })
 
 --- @keymaps: vim
@@ -82,13 +81,16 @@ map("n", "<leader>wf", function()
 		cwd = "/mnt/c/Users/Superuser/MainVault",
 	})
 end, { desc = "Find Files" })
+
 --- @keymaps: nvim-tree
 map("n", "<C-n>", "<cmd>NvimTreeToggle<CR>", { desc = "File Tree" })
+
 --- @keymaps: tiny-inline-diagnostic
 map("n", "<leader>td", function()
 	local diag = require("tiny-inline-diagnostic")
 	diag.toggle()
 end, { desc = "toggle diagnostic" })
+
 --- @keymaps: Compile
 map("n", "<leader>cc", function()
 	local cmd = vim.fn.input("Compile: ")
@@ -183,6 +185,7 @@ require("nvim-treesitter").setup({
 		"javascript",
 		"markdown",
 		"json",
+		"odin",
 		"nix",
 		"bash",
 		"html",
@@ -282,9 +285,10 @@ require("conform").setup({
 		python = { "ruff" },
 		javascript = { "prettier" },
 		c = { "clang-format" },
+		odin = { "odinfmt" },
 	},
 })
---- @plugins: lsp
+--- @plugins: clangd-lsp
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 local cmp_cap = require("mini.completion").get_lsp_capabilities()
 vim.tbl_deep_extend("force", capabilities, cmp_cap)
@@ -308,8 +312,7 @@ vim.lsp.config("clangd", {
 		},
 	},
 })
-
---- @lspconfig Lua_ls
+--- @lspconfig Lua-ls
 vim.lsp.config("lua_ls", {
 	settings = {
 		Lua = {
@@ -319,14 +322,4 @@ vim.lsp.config("lua_ls", {
 		},
 	},
 })
---- @lspconfig ocamllsp
-vim.lsp.enable("ocamllsp", {
-	settings = {
-		ocamllsp = {
-			cmd = { "ocaml-language-server", "--stdio" },
-			filetypes = { "ocaml", "menhir", "ocamlinterface", "ocamllex", "reason", "dune" },
-			root_markers = { "*.opam", "esy.json", "package.json", ".git", "dune-project", "dune-workspace" },
-		},
-	},
-})
-vim.lsp.enable({ "lua_ls", "rnix_lsp", "gopls", "ruff", "eslint_d", "zls", "deno", "clangd", "rust_analyzer" })
+vim.lsp.enable({ "lua_ls", "rnix_lsp", "gopls", "ruff", "eslint_d", "deno", "clangd", "ols" })

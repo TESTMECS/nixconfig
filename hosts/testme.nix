@@ -14,24 +14,22 @@
     unzip
     # === Rust ===
 		just
-    ripgrep
-    fd
-    bat
-    fzf
-    broot
-    eza
-    procs
-    dua
-		unstable.cargo
-		unstable.rustup
+    ripgrep # better grep
+    fd # better find
+    bat # better cat/less
+    fzf # better fuzzy find 
+    eza # better ls
+    procs # better ps
+		unstable.cargo #rustup
+		unstable.rustup #rustup
     # === shell ===
 		bash
 		fish
-    starship
+    starship # better prompt
     # neovim
 		neovim-nightly
 	  # ===== Scripts ===== 
-		(pkgs.writeShellScriptBin "testme_build" ''
+		(pkgs.writeShellScriptBin "testme-build" ''
 			sudo nixos-rebuild switch --flake .#testme
 		'')
 		(pkgs.writeShellApplication {
