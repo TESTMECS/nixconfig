@@ -2,6 +2,7 @@
 --- @globals
 --- @options
 --- @commands
+--- @usercmd
 --- @keymaps
 --- @Packages : Vim Pack URLS
 --- @colorscheme
@@ -30,6 +31,7 @@ vim.o.signcolumn = "yes"
 vim.o.clipboard = "unnamedplus"
 --- @commands
 local autocmd = vim.api.nvim_create_autocmd
+local usercmd = vim.api.nvim_create_user_command
 autocmd("TextYankPost", {
 	group = vim.api.nvim_create_augroup("highlight_yank", {}),
 	desc = "Hightlight selection on yank",
@@ -44,6 +46,17 @@ autocmd("BufWritePre", {
 		require("conform").format({ bufnr = args.buf })
 	end,
 })
+--- @usercmd: Shell
+usercmd("Config", function()
+	vim.cmd("e ~/.config/nvim/init.lua")
+end, { desc = "Edit config file" })
+usercmd("Bashrc", function()
+	vim.cmd("e ~/.bashrc")
+end, { desc = "Edit bashrc file" })
+usercmd("NixConfig", function()
+	vim.cmd("e ~/nixconfig")
+end, { desc = "Edit nix config file" })
+
 --- @keymaps
 local map = vim.keymap.set
 
@@ -285,7 +298,6 @@ require("conform").setup({
 		python = { "ruff" },
 		javascript = { "prettier" },
 		c = { "clang-format" },
-		odin = { "odinfmt" },
 	},
 })
 --- @plugins: clangd-lsp
