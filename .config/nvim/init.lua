@@ -1,6 +1,5 @@
 --- @key
---- @globals
---- @options
+--- @globals @options
 --- @commands
 --- @usercmd
 --- @keymaps
@@ -48,17 +47,102 @@ autocmd("BufWritePre", {
 })
 --- @usercmd: Shell
 usercmd("Config", function()
+	print("⭒₊ ⊹🌕₊ ⊹⭒")
 	vim.cmd("e ~/.config/nvim/init.lua")
 end, { desc = "Edit config file" })
+
+usercmd("KeyCastr", function()
+	require("keycastr").enable()
+	print("🎹")
+end, { desc = "Toggle keycastr" })
+
+usercmd("KeyCastrD", function()
+	require("keycastr").disable()
+end, { desc = "Toggle keycastr" })
+
 usercmd("Bashrc", function()
 	vim.cmd("e ~/.bashrc")
 end, { desc = "Edit bashrc file" })
+
 usercmd("NixConfig", function()
+	print("⋆˚☆˖°⋆｡° ✮˖ ࣪ ⊹⋆.˚")
 	vim.cmd("e ~/nixconfig")
 end, { desc = "Edit nix config file" })
 
 --- @keymaps
 local map = vim.keymap.set
+
+--- @keymaps: Harpoon?
+map("n", "<leader>a", function()
+	print("Harpoon?🔱Add")
+	vim.cmd("argadd")
+	vim.cmd("argdedup")
+	vim.cmd("normal! m'") -- Mark the line for o+i
+end, { desc = "Harpoon?" })
+
+map("n", "<leader>e", function()
+	print("Harpoon?🔱List Empty")
+	vim.cmd("args")
+end, { desc = "Harpoon?" })
+
+map("n", "<leader>1", function()
+	print("Harpoon?1🔱")
+	vim.cmd("silent! 1argument")
+end, { desc = "Harpoon?" })
+
+map("n", "<leader>2", function()
+	print("Harpoon?2🔱")
+	vim.cmd("silent! 2argument")
+end, { desc = "Harpoon?" })
+
+map("n", "<leader>3", function()
+	print("Harpoon?3🔱")
+	vim.cmd("silent! 3argument")
+end, { desc = "Harpoon?" })
+
+map("n", "<leader>4", function()
+	print("Harpoon?4🔱")
+	vim.cmd("silent! 4argument")
+end, { desc = "Harpoon?" })
+
+map("n", "<leader>hw", function()
+	local cmd = vim.fn.input("Harpoon?🔱: ")
+
+	local function is_num(str)
+		return str:match("^%d+$")
+	end
+
+	local function split(s, delimiter)
+		local result = {}
+		if delimiter == "" then
+			-- Edge case: empty delimiter (split by each character)
+			for i = 1, #s do
+				table.insert(result, s:sub(i, i))
+			end
+			return result
+		end
+
+		for part in string.gmatch(s, "([^" .. delimiter .. "]+)") do
+			table.insert(result, part)
+		end
+		return result
+	end
+
+	-- Parse input
+	local items = split(cmd, ",")
+	local s1 = items[1]
+	local s2 = items[2]
+	local cmd_input = ""
+	if is_num(s1) then
+		-- include comma
+		cmd_input = s1 .. s2 .. "argd"
+	else
+		cmd_input = s1 .. cmd .. "argd"
+	end
+	if cmd ~= "" then
+		vim.cmd(cmd_input)
+	end
+end, { desc = "Harpoon?" })
 
 --- @keymaps: windows
 map("n", "<C-h>", "<C-w>h", { desc = "switch window left" })
@@ -75,6 +159,7 @@ map("n", "<C-s>", "<cmd>write<CR>", { desc = "save" })
 map("n", "<Esc>", "<cmd>noh<CR>", { desc = "clear highlights" })
 map("n", "<leader>rr", "<cmd>restart<CR>", { desc = "restart" })
 map("n", "<leader>gd", vim.lsp.buf.definition, { noremap = true, silent = true, desc = "Go to definition" })
+map("t", "<C-x>", "<C-\\><C-N>", { desc = "terminal escape terminal mode" })
 
 --- @keymaps: fzf-lua
 map("n", "<leader>ff", "<cmd>FzfLua files<CR>", { desc = "Find Files" })
@@ -82,12 +167,11 @@ map("n", "<leader>fk", "<cmd>FzfLua keymaps<CR>", { desc = "Find Keymaps" })
 map("n", "<leader>fw", "<cmd>FzfLua live_grep<CR>", { desc = "Find Word" })
 map("n", "<leader>fc", "<cmd>FzfLua commands<CR>", { desc = "Find Commands" })
 
---- @keymaps: neowiki
+--- @keymaps: neowiki open
 map("n", "<leader>ww", function()
 	local wiki = require("neowiki")
 	wiki.open_wiki_new_tab("vault")
 end, { desc = "Open Wiki" })
-
 --- @keymaps: neowiki search
 map("n", "<leader>wf", function()
 	require("fzf-lua").files({
@@ -112,6 +196,7 @@ map("n", "<leader>cc", function()
 	end
 end, { desc = "Compile with command input" })
 
+map("n", "<leader>cr", "<cmd>Recompile<CR>", { desc = "recompile last" })
 --- @Packages
 vim.pack.add({
 	---@plugin: Theme
@@ -130,6 +215,7 @@ vim.pack.add({
 	"https://github.com/ej-shafran/compile-mode.nvim",
 	"https://github.com/echaya/neowiki.nvim",
 	---@plugin: completion
+	"https://github.com/supermaven-inc/supermaven-nvim",
 	"https://github.com/echasnovski/mini.completion",
 	"https://github.com/windwp/nvim-autopairs",
 	"https://github.com/echasnovski/mini.icons",
@@ -139,62 +225,40 @@ vim.pack.add({
 	{ src = "https://github.com/L3MON4D3/LuaSnip", version = "v2.4.0" },
 	"https://github.com/miikanissi/modus-themes.nvim",
 	---@plugin: AI
-	"https://github.com/supermaven-inc/supermaven-nvim",
+	"https://github.com/4513ECHO/nvim-keycastr",
 })
 --- @plugins: compile-mode
 vim.g.compile_mode = {}
 --- @colorscheme
--- require("modus-themes").setup({
--- 	style = "modus_vivendi", -- Use the dark base consistently
--- 	variant = "deuteranopia", -- Balanced, subtle contrast variant
--- 	line_nr_column_background = true, -- Helps anchor focus in the code gutter
--- 	on_colors = function(colors)
--- 		colors.error = colors.red_intense
--- 		colors.bg_main = "#1b1d24" -- Custom background: deeper charcoal tone
--- 		colors.fg_main = "#d6d6d6" -- Slightly desaturated foreground
--- 	end,
--- 	on_highlights = function(highlight, color)
--- 		highlight.Boolean = { fg = color.blue_cooler, bold = true }
--- 		highlight.Keyword = { fg = color.magenta_faint, italic = true }
--- 		highlight.Function = { fg = color.cyan_cooler, bold = true }
--- 		highlight.String = { fg = color.olive }
--- 		highlight.Comment = { fg = color.maroon, italic = true }
--- 		highlight.Number = { fg = color.magenta_cooler }
--- 		highlight.Type = { fg = color.blue_warmer, italic = true }
--- 		highlight.Visual = { bg = "#2a2f40" } -- Custom dimmed indigo background
--- 		highlight.CursorLine = { bg = "#232733" } -- Helps navigation clarity
--- 	end,
--- })
 require("modus-themes").setup({
-	style = "modus_vivendi", -- dark base for depth
-	variant = "tritanopia", -- good neutral contrast; tritanopia reduces harsh blues
-	line_nr_column_background = false,
+	style = "modus_vivendi", -- Use the dark base consistently
+	variant = "deuteranopia", -- Balanced, subtle contrast variant
+	line_nr_column_background = true, -- Helps anchor focus in the code gutter
 	on_colors = function(colors)
-		colors.bg_main = "#141a16" -- deep forest green base
-		colors.fg_main = "#d2d8d2" -- light sage text
-		colors.error = colors.red_faint -- gentle red for errors
-		colors.warning = colors.yellow_faint
-		colors.success = colors.green_intense
+		colors.error = colors.red_intense
+		colors.bg_main = "#1b1d24" -- Custom background: deeper charcoal tone
+		colors.fg_main = "#d6d6d6" -- Slightly desaturated foreground
 	end,
-	on_highlights = function(hl, c)
-		hl.Boolean = { fg = c.green_intense, bold = true }
-		hl.Keyword = { fg = "#a4e2a8", italic = true } -- soft mint keywords
-		hl.Function = { fg = "#7ee787", bold = true } -- vibrant leaf green
-		hl.String = { fg = c.gold } -- yellow-green for contrast
-		hl.Comment = { fg = "#5a6f5a", italic = true } -- muted olive comments
-		hl.Number = { fg = "#8cd9a5" }
-		hl.Type = { fg = "#9ae5b0", italic = true }
-		hl.Constant = { fg = "#6de0c0" } -- cool cyan touch for variety
-		hl.Visual = { bg = "#203526" } -- deep green highlight
-		hl.CursorLine = { bg = "#1b241d" } -- subtle line emphasis
+	on_highlights = function(highlight, color)
+		highlight.Boolean = { fg = color.blue_cooler, bold = true }
+		highlight.Keyword = { fg = color.magenta_faint, italic = true }
+		highlight.Function = { fg = color.cyan_cooler, bold = true }
+		highlight.String = { fg = color.olive }
+		highlight.Comment = { fg = color.maroon, italic = true }
+		highlight.Number = { fg = color.magenta_cooler }
+		highlight.Type = { fg = color.blue_warmer, italic = true }
+		highlight.Visual = { bg = "#2a2f40" } -- Custom dimmed indigo background
+		highlight.CursorLine = { bg = "#232733" } -- Helps navigation clarity
 	end,
 })
+
+require("supermaven-nvim").setup({})
+
 vim.cmd([[colorscheme modus_vivendi]])
 --- @plugins: treesitter
 require("nvim-treesitter").setup({
 	ensure_installed = {
 		"lua",
-		"typescript",
 		"javascript",
 		"markdown",
 		"json",
@@ -202,11 +266,9 @@ require("nvim-treesitter").setup({
 		"nix",
 		"bash",
 		"html",
-		"go",
 		"vim",
 		"vimdoc",
 	},
-	cmds = { "TSInstall", "TSBufEnable", "TSBufDisable", "TSModuleInfo" },
 	highlight = { enable = true, use_languagetree = true },
 	indent = { enable = true },
 })
@@ -260,8 +322,6 @@ require("nvim-tree").setup({
 })
 --- @plugins: markview
 require("markview").setup({})
---- @plugins: supermaven-nvim
-require("supermaven-nvim").setup({})
 --- @plugins: mini.completion
 require("mini.completion").setup({})
 --- @plugins: mini.snippets
@@ -283,21 +343,26 @@ require("lualine").setup({
 		lualine_a = { "mode" },
 		lualine_b = { "branch" },
 		lualine_c = { "filename", "diagnostics" },
-		lualine_x = nil,
+		lualine_x = { "lsp_status", "hostname", "diff" },
 		lualine_y = nil,
 		lualine_z = nil,
 	},
 })
 --- @plugins: conform
 require("conform").setup({
+	formatters = {
+		odinfmt = {
+			command = "/home/nixos/ols/odinfmt",
+			args = { "-stdin" },
+			stdin = true,
+		},
+	},
 	formatters_by_ft = {
 		lua = { "stylua" },
-		rust = { "rustfmt" },
-		go = { "go fmt" },
-		nix = { "nixfmt" },
+		rust = { "rustfmt", "rust-analyzer" },
 		python = { "ruff" },
-		javascript = { "prettier" },
 		c = { "clang-format" },
+		odin = { "odinfmt" },
 	},
 })
 --- @plugins: clangd-lsp
@@ -325,7 +390,7 @@ vim.lsp.config("clangd", {
 	},
 })
 --- @lspconfig Lua-ls
-vim.lsp.config("lua_ls", {
+vim.lsp.config("emmylua_ls", {
 	settings = {
 		Lua = {
 			diagnostics = {
@@ -334,4 +399,4 @@ vim.lsp.config("lua_ls", {
 		},
 	},
 })
-vim.lsp.enable({ "lua_ls", "rnix_lsp", "gopls", "ruff", "eslint_d", "deno", "clangd", "ols" })
+vim.lsp.enable({ "emmylua_ls", "clangd", "ols" })

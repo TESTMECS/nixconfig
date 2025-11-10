@@ -23,10 +23,10 @@ SETUVAR fish_color_selection:white\x1e\x2d\x2dbold\x1e\x2d\x2dbackground\x3dbrbl
 SETUVAR fish_color_status:red
 SETUVAR fish_color_user:brgreen
 SETUVAR fish_color_valid_path:\x2d\x2dunderline
-SETUVAR fish_key_bindings:fish_default_key_bindings
+SETUVAR fish_key_bindings:fish_vi_key_bindings
 SETUVAR fish_pager_color_completion:normal
 SETUVAR fish_pager_color_description:yellow\x1e\x2di
 SETUVAR fish_pager_color_prefix:normal\x1e\x2d\x2dbold\x1e\x2d\x2dunderline
 SETUVAR fish_pager_color_progress:brwhite\x1e\x2d\x2dbackground\x3dcyan
 SETUVAR fish_pager_color_selected_background:\x2dr
-SETUVAR fish_user_paths:/home/testme/lux/target/release\x1e/home/testme/\x2ecargo/bin\x1e/home/testme/zig\x2dx86_64\x2dlinux\x2d0\x2e15\x2e0\x2ddev\x2e1593\x2b399bace2f\x1e/home/testme/\x2enix\x2dprofile/bin\x1e/home/testme/\x2elocal/bin
+SETUVAR fish_user_paths:/home/nixos/odin\x2dwren/wren\x2dcli/bin\x1e/home/nixos/\x2elocal/share/uv/python/cpython\x2d3\x2e13\x2e7\x2dlinux\x2dx86_64\x2dgnu/bin\x1e/home/nixos/\x2ecargo/bin\x1e/home/nixos/ols\x1e/home/testme/lux/target/release\x1e/home/testme/\x2ecargo/bin\x1e/home/testme/zig\x2dx86_64\x2dlinux\x2d0\x2e15\x2e0\x2ddev\x2e1593\x2b399bace2f\x1e/home/testme/\x2enix\x2dprofile/bin\x1e/home/testme/\x2elocal/bin
