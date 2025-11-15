@@ -8,10 +8,6 @@
   };
   outputs = { self, nixpkgs, nixos-wsl, ... }@inputs: {
     nixosConfigurations = {
-      seph = nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
-        modules = [ ./hosts/common.nix ./hosts/seph.nix ];
-      };
       testme = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         modules = [
