@@ -62,6 +62,7 @@ usercmd("KeyCastrD", function()
 end, { desc = "Toggle keycastr" })
 
 usercmd("Bashrc", function()
+	print("⋆˚☆˖°⋆｡° ✮˖ ࣪ ⊹⋆.˚")
 	vim.cmd("e ~/.bashrc")
 end, { desc = "Edit bashrc file" })
 
@@ -69,10 +70,8 @@ usercmd("NixConfig", function()
 	print("⋆˚☆˖°⋆｡° ✮˖ ࣪ ⊹⋆.˚")
 	vim.cmd("e ~/nixconfig")
 end, { desc = "Edit nix config file" })
-
 --- @keymaps
 local map = vim.keymap.set
-
 --- @keymaps: Harpoon?
 map("n", "<leader>a", function()
 	print("Harpoon?🔱Add")
@@ -106,45 +105,6 @@ map("n", "<leader>4", function()
 	vim.cmd("silent! 4argument")
 end, { desc = "Harpoon?" })
 
-map("n", "<leader>hw", function()
-	local cmd = vim.fn.input("Harpoon?🔱: ")
-
-	local function is_num(str)
-		return str:match("^%d+$")
-	end
-
-	local function split(s, delimiter)
-		local result = {}
-		if delimiter == "" then
-			-- Edge case: empty delimiter (split by each character)
-			for i = 1, #s do
-				table.insert(result, s:sub(i, i))
-			end
-			return result
-		end
-
-		for part in string.gmatch(s, "([^" .. delimiter .. "]+)") do
-			table.insert(result, part)
-		end
-		return result
-	end
-
-	-- Parse input
-	local items = split(cmd, ",")
-	local s1 = items[1]
-	local s2 = items[2]
-	local cmd_input = ""
-	if is_num(s1) then
-		-- include comma
-		cmd_input = s1 .. s2 .. "argd"
-	else
-		cmd_input = s1 .. cmd .. "argd"
-	end
-	if cmd ~= "" then
-		vim.cmd(cmd_input)
-	end
-end, { desc = "Harpoon?" })
-
 --- @keymaps: windows
 map("n", "<C-h>", "<C-w>h", { desc = "switch window left" })
 map("n", "<C-l>", "<C-w>l", { desc = "switch window right" })
@@ -168,26 +128,8 @@ map("n", "<leader>fk", "<cmd>FzfLua keymaps<CR>", { desc = "Find Keymaps" })
 map("n", "<leader>fw", "<cmd>FzfLua live_grep<CR>", { desc = "Find Word" })
 map("n", "<leader>fc", "<cmd>FzfLua commands<CR>", { desc = "Find Commands" })
 
---- @keymaps: neowiki open
-map("n", "<leader>ww", function()
-	local wiki = require("neowiki")
-	wiki.open_wiki_new_tab("vault")
-end, { desc = "Open Wiki" })
---- @keymaps: neowiki search
-map("n", "<leader>wf", function()
-	require("fzf-lua").files({
-		cwd = "/mnt/c/Users/Superuser/MainVault",
-	})
-end, { desc = "Find Files" })
-
 --- @keymaps: nvim-tree
 map("n", "<C-n>", "<cmd>NvimTreeToggle<CR>", { desc = "File Tree" })
-
---- @keymaps: tiny-inline-diagnostic
-map("n", "<leader>td", function()
-	local diag = require("tiny-inline-diagnostic")
-	diag.toggle()
-end, { desc = "toggle diagnostic" })
 
 --- @keymaps: Compile
 map("n", "<leader>cc", function()
@@ -198,6 +140,7 @@ map("n", "<leader>cc", function()
 end, { desc = "Compile with command input" })
 
 map("n", "<leader>cr", "<cmd>Recompile<CR>", { desc = "recompile last" })
+
 --- @Packages
 vim.pack.add({
 	---@plugin: Theme
@@ -208,21 +151,19 @@ vim.pack.add({
 	{ src = "https://github.com/nvim-lua/plenary.nvim", version = "v0.1.4" },
 	"https://github.com/ibhagwan/fzf-lua",
 	"https://github.com/nvim-tree/nvim-web-devicons",
-	"https://github.com/mason-org/mason.nvim",
 	"https://github.com/neovim/nvim-lspconfig",
 	"https://github.com/nvim-tree/nvim-tree.lua",
 	"https://github.com/stevearc/conform.nvim",
 	"https://github.com/ej-shafran/compile-mode.nvim",
-	"https://github.com/echaya/neowiki.nvim",
 	---@plugin: completion
 	"https://github.com/supermaven-inc/supermaven-nvim",
 	"https://github.com/echasnovski/mini.completion",
 	"https://github.com/windwp/nvim-autopairs",
 	"https://github.com/echasnovski/mini.icons",
 	"https://github.com/echasnovski/mini.snippets",
-	"https://github.com/rachartier/tiny-inline-diagnostic.nvim",
 	"https://github.com/rafamadriz/friendly-snippets",
 	{ src = "https://github.com/L3MON4D3/LuaSnip", version = "v2.4.0" },
+	---@plugin: Themes
 	"https://github.com/miikanissi/modus-themes.nvim",
 	"https://github.com/janet-lang/janet.vim",
 	---@plugin: AI
@@ -264,9 +205,9 @@ require("modus-themes").setup({
 		hl.CursorLine = { bg = "#0c1c2a" }
 	end,
 })
-require("supermaven-nvim").setup({})
-
 vim.cmd([[colorscheme modus_vivendi]])
+--- @plugins: supermaven-nvim
+require("supermaven-nvim").setup({})
 --- @plugins: treesitter
 require("nvim-treesitter").setup({
 	ensure_installed = {
@@ -285,22 +226,10 @@ require("nvim-treesitter").setup({
 	highlight = { enable = true, use_languagetree = true },
 	indent = { enable = true },
 })
---- @plugins: neowiki
-require("neowiki").setup({
-	wiki_dirs = {
-		name = "vault",
-		path = "/mnt/c/Users/Superuser/MainVault",
-	},
-	index_file = "Index.md",
-})
 --- @plugins: nvim-autopairs
 require("nvim-autopairs").setup({})
 --- @plugins: fzf-lua
 require("fzf-lua").setup({ "fzf-native" })
---- @plugins: tiny-inline-diagnostic
-require("tiny-inline-diagnostic").setup({})
---- @plugins: mason
-require("mason").setup({})
 --- @plugins: nvim-tree
 require("nvim-tree").setup({
 	view = {
@@ -400,14 +329,4 @@ vim.lsp.config("clangd", {
 		},
 	},
 })
---- @lspconfig Lua-ls
-vim.lsp.config("emmylua_ls", {
-	settings = {
-		Lua = {
-			diagnostics = {
-				globals = { "vim" },
-			},
-		},
-	},
-})
-vim.lsp.enable({ "emmylua_ls", "clangd", "ols" })
+vim.lsp.enable({ "lua-language-server", "clangd", "ols" })
