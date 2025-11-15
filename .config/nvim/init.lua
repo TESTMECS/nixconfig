@@ -14,6 +14,7 @@ vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 vim.g.have_nerd_font = true
 --- @options
+vim.opt.modeline = false
 vim.o.number = true
 vim.o.autoindent = true
 vim.o.smartindent = true
@@ -210,7 +211,6 @@ vim.pack.add({
 	"https://github.com/mason-org/mason.nvim",
 	"https://github.com/neovim/nvim-lspconfig",
 	"https://github.com/nvim-tree/nvim-tree.lua",
-	"https://github.com/OXY2DEV/markview.nvim",
 	"https://github.com/stevearc/conform.nvim",
 	"https://github.com/ej-shafran/compile-mode.nvim",
 	"https://github.com/echaya/neowiki.nvim",
@@ -224,6 +224,7 @@ vim.pack.add({
 	"https://github.com/rafamadriz/friendly-snippets",
 	{ src = "https://github.com/L3MON4D3/LuaSnip", version = "v2.4.0" },
 	"https://github.com/miikanissi/modus-themes.nvim",
+	"https://github.com/janet-lang/janet.vim",
 	---@plugin: AI
 	"https://github.com/4513ECHO/nvim-keycastr",
 })
@@ -263,6 +264,7 @@ require("nvim-treesitter").setup({
 		"markdown",
 		"json",
 		"odin",
+		"janet-simple",
 		"nix",
 		"bash",
 		"html",
@@ -320,8 +322,6 @@ require("nvim-tree").setup({
 		end,
 	},
 })
---- @plugins: markview
-require("markview").setup({})
 --- @plugins: mini.completion
 require("mini.completion").setup({})
 --- @plugins: mini.snippets

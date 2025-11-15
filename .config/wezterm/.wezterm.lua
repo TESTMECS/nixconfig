@@ -2,12 +2,11 @@ local wezterm = require("wezterm")
 local act = require("wezterm").action
 local config = wezterm.config_builder()
 
-config.color_scheme = "modus-vivendi"
 local bar = wezterm.plugin.require("https://github.com/adriankarlen/bar.wezterm")
 bar.apply_to_config(config)
 
--- local vauge = require("vauge")
--- config.colors = vauge.colors()
+local vauge = require("vauge")
+config.colors = vauge.colors()
 
 config.leader = { key = "Space", mods = "CTRL", timeout_milliseconds = 1500 }
 config.keys = {
