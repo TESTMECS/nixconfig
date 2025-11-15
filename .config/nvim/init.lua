@@ -232,27 +232,38 @@ vim.pack.add({
 vim.g.compile_mode = {}
 --- @colorscheme
 require("modus-themes").setup({
-	style = "modus_vivendi", -- Use the dark base consistently
-	variant = "deuteranopia", -- Balanced, subtle contrast variant
-	line_nr_column_background = true, -- Helps anchor focus in the code gutter
-	on_colors = function(colors)
-		colors.error = colors.red_intense
-		colors.bg_main = "#1b1d24" -- Custom background: deeper charcoal tone
-		colors.fg_main = "#d6d6d6" -- Slightly desaturated foreground
+	style = "modus_vivendi",
+	variant = "protanopia",
+
+	line_nr_column_background = true,
+
+	on_colors = function(c)
+		c.bg_main = "#071521" -- Deep-sea blue base
+		c.fg_main = "#e6e6e6" -- Neutral readable foreground
+
+		c.red = "#ff4f8b" -- Magenta-leaning pink
+		c.magenta = "#ff3fd1" -- Vivid magenta
+		c.yellow = "#e2b448" -- Gold
+		c.orange = "#ff7a2f" -- Bright orange
+
+		c.info = "#27a8ff"
+		c.warning = "#ffb428"
+		c.error = "#ff3a5e"
 	end,
-	on_highlights = function(highlight, color)
-		highlight.Boolean = { fg = color.blue_cooler, bold = true }
-		highlight.Keyword = { fg = color.magenta_faint, italic = true }
-		highlight.Function = { fg = color.cyan_cooler, bold = true }
-		highlight.String = { fg = color.olive }
-		highlight.Comment = { fg = color.maroon, italic = true }
-		highlight.Number = { fg = color.magenta_cooler }
-		highlight.Type = { fg = color.blue_warmer, italic = true }
-		highlight.Visual = { bg = "#2a2f40" } -- Custom dimmed indigo background
-		highlight.CursorLine = { bg = "#232733" } -- Helps navigation clarity
+
+	on_highlights = function(hl, c)
+		hl.Keyword = { fg = c.magenta, italic = true }
+		hl.Boolean = { fg = c.orange, bold = true }
+		hl.Function = { fg = c.yellow, bold = true } -- Gold commands
+		hl.String = { fg = "#ff9a52" } -- Warm orange-gold blend
+		hl.Number = { fg = c.magenta }
+		hl.Type = { fg = c.yellow, italic = true }
+
+		hl.Comment = { fg = "#6c7a8a", italic = true } -- Cool desaturated overlay
+		hl.Visual = { bg = "#0f2234" } -- Slightly lifted deep-sea blue
+		hl.CursorLine = { bg = "#0c1c2a" }
 	end,
 })
-
 require("supermaven-nvim").setup({})
 
 vim.cmd([[colorscheme modus_vivendi]])
