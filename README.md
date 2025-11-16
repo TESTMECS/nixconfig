@@ -7,3 +7,10 @@
 
 ![png2](https://github.com/user-attachments/assets/5550c273-3722-4e48-a7cf-14ab46e3b617)
 ![png3](https://github.com/user-attachments/assets/294012ad-ea10-4c06-a2b3-f166fc2aeadc)
+
+
+
+# Idea
+.bashrc
+.zshrc
+nix scripts for temp env-runs

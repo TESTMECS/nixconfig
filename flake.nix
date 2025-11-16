@@ -1,5 +1,5 @@
 {
-  description = "Multi-host NixOS configuration example";
+  description = "Myflake";
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     nixos-wsl.url = "github:nix-community/NixOS-WSL";

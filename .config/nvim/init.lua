@@ -329,4 +329,4 @@ vim.lsp.config("clangd", {
 		},
 	},
 })
-vim.lsp.enable({ "lua-language-server", "clangd", "ols" })
+vim.lsp.enable({ "lua-language-server", "clangd", "ols", "ruff" })
