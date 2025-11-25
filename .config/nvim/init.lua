@@ -147,13 +147,15 @@ vim.pack.add({
 	"https://github.com/vague2k/vague.nvim",
 	"https://github.com/nvim-lualine/lualine.nvim",
 	---@plugin: Essentials
-	{ src = "https://github.com/nvim-treesitter/nvim-treesitter", version = "main" },
+	{ src = "https://github.com/nvim-treesitter/nvim-treesitter", version = "master" },
 	{ src = "https://github.com/nvim-lua/plenary.nvim", version = "v0.1.4" },
 	"https://github.com/ibhagwan/fzf-lua",
 	"https://github.com/nvim-tree/nvim-web-devicons",
 	"https://github.com/neovim/nvim-lspconfig",
 	"https://github.com/nvim-tree/nvim-tree.lua",
+	"https://github.com/mason-org/mason.nvim",
 	"https://github.com/stevearc/conform.nvim",
+	"https://github.com/rachartier/tiny-inline-diagnostic.nvim",
 	"https://github.com/ej-shafran/compile-mode.nvim",
 	---@plugin: completion
 	"https://github.com/supermaven-inc/supermaven-nvim",
@@ -174,38 +176,36 @@ vim.g.compile_mode = {}
 --- @colorscheme
 require("modus-themes").setup({
 	style = "modus_vivendi",
-	variant = "protanopia",
-
+	variant = "tritanopia",
 	line_nr_column_background = true,
-
 	on_colors = function(c)
-		c.bg_main = "#071521" -- Deep-sea blue base
-		c.fg_main = "#e6e6e6" -- Neutral readable foreground
-
-		c.red = "#ff4f8b" -- Magenta-leaning pink
-		c.magenta = "#ff3fd1" -- Vivid magenta
-		c.yellow = "#e2b448" -- Gold
-		c.orange = "#ff7a2f" -- Bright orange
-
-		c.info = "#27a8ff"
-		c.warning = "#ffb428"
-		c.error = "#ff3a5e"
+		c.bg_main = "#0d1117" -- Deep navy base
+		c.fg_main = "#e6edf3" -- Crisp off-white
+		c.red = "#ff6b6b" -- Vibrant coral red
+		c.magenta = "#c678dd" -- Rich purple
+		c.yellow = "#e5c07b" -- Warm gold
+		c.orange = "#ff9e64" -- Soft amber
+		c.info = "#56b6c2" -- Bright cyan
+		c.warning = "#d19a66"
+		c.error = "#e06c75"
 	end,
-
 	on_highlights = function(hl, c)
-		hl.Keyword = { fg = c.magenta, italic = true }
-		hl.Boolean = { fg = c.orange, bold = true }
-		hl.Function = { fg = c.yellow, bold = true } -- Gold commands
-		hl.String = { fg = "#ff9a52" } -- Warm orange-gold blend
-		hl.Number = { fg = c.magenta }
-		hl.Type = { fg = c.yellow, italic = true }
-
-		hl.Comment = { fg = "#6c7a8a", italic = true } -- Cool desaturated overlay
-		hl.Visual = { bg = "#0f2234" } -- Slightly lifted deep-sea blue
-		hl.CursorLine = { bg = "#0c1c2a" }
+		hl.Keyword = { fg = "#bb9af7" } -- Lavender
+		hl.Boolean = { fg = c.orange }
+		hl.Function = { fg = "#7dcfff" } -- Sky blue
+		hl.String = { fg = "#9ece6a" } -- Fresh green
+		hl.Number = { fg = "#ff9e64" }
+		hl.Type = { fg = c.yellow }
+		hl.Comment = { fg = "#565f89", italic = true } -- Muted slate
+		hl.Visual = { bg = "#1f2937" }
+		hl.CursorLine = { bg = "#161b22" }
+		hl.LineNr = { fg = "#4b5563" }
+		hl.Operator = { fg = "#89ddff" } -- Bright cyan
+		hl.Identifier = { fg = "#f7768e" } -- Soft pink
 	end,
 })
 vim.cmd([[colorscheme modus_vivendi]])
+require("tiny-inline-diagnostic").setup({})
 --- @plugins: supermaven-nvim
 require("supermaven-nvim").setup({})
 --- @plugins: treesitter
@@ -228,6 +228,8 @@ require("nvim-treesitter").setup({
 })
 --- @plugins: nvim-autopairs
 require("nvim-autopairs").setup({})
+--- @plugins
+require("mason").setup({})
 --- @plugins: fzf-lua
 require("fzf-lua").setup({ "fzf-native" })
 --- @plugins: nvim-tree
@@ -296,9 +298,16 @@ require("conform").setup({
 			args = { "-stdin" },
 			stdin = true,
 		},
+		prettier = {
+			command = "prettier",
+			args = { "--stdin", "--stdin-filepath", "$FILENAME" },
+			stdin = true,
+		},
 	},
 	formatters_by_ft = {
+		asm = { "asmfmt" },
 		lua = { "stylua" },
+		javascript = { "prettier" },
 		rust = { "rustfmt", "rust-analyzer" },
 		python = { "ruff" },
 		c = { "clang-format" },
@@ -329,4 +338,9 @@ vim.lsp.config("clangd", {
 		},
 	},
 })
-vim.lsp.enable({ "lua-language-server", "clangd", "ols", "ruff" })
+vim.filetype.add({
+	extension = {
+		monkey = "monkey",
+	},
+})
+vim.lsp.enable({ "lua-language-server", "clangd", "ols", "ruff", "rust_analyzer", "deno" })

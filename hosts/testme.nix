@@ -21,7 +21,6 @@
     eza # better ls
     procs # better ps
 		dua # lua???
-		unstable.cargo #rustup
 		unstable.rustup #rustup
     # === shell ===
 		bash
