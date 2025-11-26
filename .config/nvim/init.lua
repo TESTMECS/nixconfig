@@ -131,16 +131,6 @@ map("n", "<leader>fc", "<cmd>FzfLua commands<CR>", { desc = "Find Commands" })
 --- @keymaps: nvim-tree
 map("n", "<C-n>", "<cmd>NvimTreeToggle<CR>", { desc = "File Tree" })
 
---- @keymaps: Compile
-map("n", "<leader>cc", function()
-	local cmd = vim.fn.input("Compile: ")
-	if cmd ~= "" then
-		vim.cmd("Compile" .. " " .. cmd)
-	end
-end, { desc = "Compile with command input" })
-
-map("n", "<leader>cr", "<cmd>Recompile<CR>", { desc = "recompile last" })
-
 --- @Packages
 vim.pack.add({
 	---@plugin: Theme
