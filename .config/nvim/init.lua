@@ -163,35 +163,42 @@ vim.pack.add({
 })
 --- @plugins: compile-mode
 vim.g.compile_mode = {}
---- @colorscheme
+--- @colorscheme Sunset Ember
 require("modus-themes").setup({
 	style = "modus_vivendi",
 	variant = "tritanopia",
 	line_nr_column_background = true,
 	on_colors = function(c)
-		c.bg_main = "#0d1117" -- Deep navy base
-		c.fg_main = "#e6edf3" -- Crisp off-white
-		c.red = "#ff6b6b" -- Vibrant coral red
-		c.magenta = "#c678dd" -- Rich purple
-		c.yellow = "#e5c07b" -- Warm gold
-		c.orange = "#ff9e64" -- Soft amber
-		c.info = "#56b6c2" -- Bright cyan
-		c.warning = "#d19a66"
-		c.error = "#e06c75"
+		c.bg_main = "#0a0e1a" -- Deep midnight blue
+		c.fg_main = "#e8d5b7" -- Warm cream
+		c.red = "#ff6b9d" -- Hot pink
+		c.magenta = "#e879f9" -- Bright magenta
+		c.yellow = "#fbbf24" -- Rich gold
+		c.orange = "#fb923c" -- Sunset orange
+		c.info = "#38bdf8" -- Electric blue
+		c.warning = "#f59e0b"
+		c.error = "#f43f5e"
 	end,
 	on_highlights = function(hl, c)
-		hl.Keyword = { fg = "#bb9af7" } -- Lavender
-		hl.Boolean = { fg = c.orange }
-		hl.Function = { fg = "#7dcfff" } -- Sky blue
-		hl.String = { fg = "#9ece6a" } -- Fresh green
-		hl.Number = { fg = "#ff9e64" }
-		hl.Type = { fg = c.yellow }
-		hl.Comment = { fg = "#565f89", italic = true } -- Muted slate
-		hl.Visual = { bg = "#1f2937" }
-		hl.CursorLine = { bg = "#161b22" }
-		hl.LineNr = { fg = "#4b5563" }
-		hl.Operator = { fg = "#89ddff" } -- Bright cyan
-		hl.Identifier = { fg = "#f7768e" } -- Soft pink
+		hl.Keyword = { fg = "#fb7185" } -- Rose pink
+		hl.Boolean = { fg = "#fb923c" } -- Orange
+		hl.Function = { fg = "#60a5fa" } -- Ocean blue
+		hl.String = { fg = "#fbbf24" } -- Gold
+		hl.Number = { fg = "#fb923c" } -- Orange
+		hl.Type = { fg = "#fbbf24" } -- Gold
+		hl.Comment = { fg = "#475569", italic = true } -- Muted blue-grey
+		hl.Visual = { bg = "#1e293b" }
+		hl.CursorLine = { bg = "#111827" }
+		hl.LineNr = { fg = "#64748b" }
+		hl.Operator = { fg = "#38bdf8" } -- Electric blue
+		hl.Identifier = { fg = "#f472b6" } -- Bright pink
+		hl.Constant = { fg = "#fb923c" } -- Orange
+		hl.Special = { fg = "#e879f9" } -- Magenta
+		hl.Statement = { fg = "#fb7185" } -- Rose
+		hl.PreProc = { fg = "#a78bfa" } -- Purple
+		hl.MatchParen = { fg = "#fbbf24", bg = "#1e293b", bold = true } -- Gold
+		hl.Search = { fg = "#0a0e1a", bg = "#fbbf24" } -- Gold highlight
+		hl.IncSearch = { fg = "#0a0e1a", bg = "#fb923c" } -- Orange highlight
 	end,
 })
 vim.cmd([[colorscheme modus_vivendi]])
