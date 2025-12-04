@@ -9,7 +9,7 @@
 --- @lspconfig
 --- @endkey
 -----------------
---- @globals
+--- @global
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 vim.g.have_nerd_font = true
@@ -47,7 +47,7 @@ autocmd("BufWritePre", {
 	end,
 })
 --- @usercmd: Shell
-usercmd("Config", function()
+usercmd("CONFIG", function()
 	print("⭒₊ ⊹🌕₊ ⊹⭒")
 	vim.cmd("e ~/.config/nvim/init.lua")
 end, { desc = "Edit config file" })
@@ -163,42 +163,40 @@ vim.pack.add({
 })
 --- @plugins: compile-mode
 vim.g.compile_mode = {}
---- @colorscheme Charcoal Ember
 require("modus-themes").setup({
-	style = "modus_vivendi",
+	style = "auto",
 	variant = "tritanopia",
 	line_nr_column_background = true,
 	on_colors = function(c)
-		c.bg_main = "#1a1d23" -- Charcoal gray
-		c.fg_main = "#e4e6eb" -- Soft white
-		c.red = "#ff8c66" -- Warm coral
-		c.magenta = "#66d9d9" -- Cyan
-		c.yellow = "#f0c674" -- Warm yellow
-		c.orange = "#e89c5c" -- Soft orange
-		c.info = "#6db3e8" -- Sky blue
-		c.warning = "#f0c674"
-		c.error = "#ff8c66"
+		c.fg_main = "#c9d1d9" -- Cool silver
+		c.red = "#ff6b6b" -- Bright red
+		c.magenta = "#bd93f9" -- Purple
+		c.yellow = "#ffd93d" -- Gold
+		c.orange = "#ffab70" -- Peach
+		c.info = "#58a6ff" -- Bright blue
+		c.warning = "#ffd93d"
+		c.error = "#ff6b6b"
 	end,
 	on_highlights = function(hl, c)
-		hl.Keyword = { fg = "#e89c5c" } -- Soft orange
-		hl.Boolean = { fg = "#6db3e8" } -- Sky blue
-		hl.Function = { fg = "#7fb4e0" } -- Light blue
-		hl.String = { fg = "#95c379" } -- Sage green
-		hl.Number = { fg = "#e89c5c" } -- Soft orange
-		hl.Type = { fg = "#f0c674" } -- Warm yellow
-		hl.Comment = { fg = "#6b737f", italic = true } -- Steel gray
-		hl.Visual = { bg = "#2d3038" }
-		hl.CursorLine = { bg = "#21242a" }
-		hl.LineNr = { fg = "#4a4f5a" }
-		hl.Operator = { fg = "#66d9d9" } -- Cyan
-		hl.Identifier = { fg = "#e4e6eb" } -- Soft white
-		hl.Constant = { fg = "#ff9966" } -- Coral
-		hl.Special = { fg = "#66d9d9" } -- Cyan
-		hl.Statement = { fg = "#e89c5c" } -- Soft orange
-		hl.PreProc = { fg = "#8fb9d9" } -- Soft blue
-		hl.MatchParen = { fg = "#f0c674", bg = "#2d3038", bold = true } -- Yellow highlight
-		hl.Search = { fg = "#1a1d23", bg = "#f0c674" } -- Yellow search
-		hl.IncSearch = { fg = "#1a1d23", bg = "#e89c5c" } -- Orange incremental search
+		hl.Keyword = { fg = "#bd93f9" } -- Purple
+		hl.Boolean = { fg = "#ffab70" } -- Peach
+		hl.Function = { fg = "#58a6ff" } -- Bright blue
+		hl.String = { fg = "#4ade80" } -- Vibrant green
+		hl.Number = { fg = "#ffab70" } -- Peach
+		hl.Type = { fg = "#ffd93d" } -- Gold
+		hl.Comment = { fg = "#d67f8a", italic = true } -- Muted gray
+		hl.Visual = { bg = "#1f2937" }
+		hl.CursorLine = { bg = "#161b22" }
+		hl.LineNr = { fg = "#30363d" }
+		hl.Operator = { fg = "#c9d1d9" } -- Cool silver
+		hl.Identifier = { fg = "#58a6ff" } -- Bright blue
+		hl.Constant = { fg = "#ffab70" } -- Peach
+		hl.Special = { fg = "#bd93f9" } -- Purple
+		hl.Statement = { fg = "#ffab70" } -- Peach
+		hl.PreProc = { fg = "#ffd93d" } -- Gold
+		hl.MatchParen = { fg = "#4ade80", bg = "#1f2937", bold = true } -- Green highlight
+		hl.Search = { fg = "#0d1117", bg = "#ffd93d" } -- Gold search
+		hl.IncSearch = { fg = "#0d1117", bg = "#4ade80" } -- Green incremental search
 	end,
 })
 vim.cmd([[colorscheme modus_vivendi]])
@@ -335,9 +333,31 @@ vim.lsp.config("clangd", {
 		},
 	},
 })
+vim.lsp.config("lua_ls", {
+	cmd = { "/nix/store/yv5gfrvadvfj68idcqkzixqnyl40phiy-lua-language-server-3.15.0/bin/lua-language-server" },
+	filetypes = { "lua" },
+	root_markers = {
+		{
+			".luarc.json",
+			".luarc.jsonc",
+		},
+		".git",
+	},
+	settings = {
+		Lua = {
+			diagnostics = {
+				globals = { "vim" },
+			},
+			runtime = {
+				version = "Lua5.4",
+			},
+		},
+	},
+})
+--- @filetype monkey
 vim.filetype.add({
 	extension = {
 		monkey = "monkey",
 	},
 })
-vim.lsp.enable({ "emmylua_ls", "clangd", "ols", "ruff", "rust_analyzer", "deno" })
+vim.lsp.enable({ "lua_ls", "clangd", "ols", "ruff", "rust_analyzer", "deno" })
