@@ -1,5 +1,4 @@
 --- @key
---- @globals @options
 --- @commands
 --- @usercmd
 --- @keymaps
@@ -52,15 +51,6 @@ usercmd("CONFIG", function()
 	vim.cmd("e ~/.config/nvim/init.lua")
 end, { desc = "Edit config file" })
 
-usercmd("KeyCastr", function()
-	require("keycastr").enable()
-	print("🎹")
-end, { desc = "Toggle keycastr" })
-
-usercmd("KeyCastrD", function()
-	require("keycastr").disable()
-end, { desc = "Toggle keycastr" })
-
 usercmd("Bashrc", function()
 	print("⋆˚☆˖°⋆｡° ✮˖ ࣪ ⊹⋆.˚")
 	vim.cmd("e ~/.bashrc")
@@ -84,34 +74,28 @@ map("n", "<leader>e", function()
 	print("Harpoon?🔱List Empty")
 	vim.cmd("args")
 end, { desc = "Harpoon?" })
-
 map("n", "<leader>1", function()
 	print("Harpoon?1🔱")
 	vim.cmd("silent! 1argument")
 end, { desc = "Harpoon?" })
-
 map("n", "<leader>2", function()
 	print("Harpoon?2🔱")
 	vim.cmd("silent! 2argument")
 end, { desc = "Harpoon?" })
-
 map("n", "<leader>3", function()
 	print("Harpoon?3🔱")
 	vim.cmd("silent! 3argument")
 end, { desc = "Harpoon?" })
-
 map("n", "<leader>4", function()
 	print("Harpoon?4🔱")
 	vim.cmd("silent! 4argument")
 end, { desc = "Harpoon?" })
-
 --- @keymaps: windows
 map("n", "<C-h>", "<C-w>h", { desc = "switch window left" })
 map("n", "<C-l>", "<C-w>l", { desc = "switch window right" })
 map("n", "<C-j>", "<C-w>j", { desc = "switch window down" })
 map("n", "<C-k>", "<C-w>k", { desc = "switch window up" })
 map("n", "<leader>tt", "<cmd>tabn<CR>", { desc = "switch tab" })
-
 --- @keymaps: vim
 map("n", "K", vim.lsp.buf.hover)
 map("n", "<leader>/", "gcc", { desc = "toggle comment", remap = true })
@@ -121,20 +105,17 @@ map("n", "<Esc>", "<cmd>noh<CR>", { desc = "clear highlights" })
 map("n", "<leader>rr", "<cmd>restart<CR>", { desc = "restart" })
 map("n", "<leader>gd", vim.lsp.buf.definition, { noremap = true, silent = true, desc = "Go to definition" })
 map("t", "<C-x>", "<C-\\><C-N>", { desc = "terminal escape terminal mode" })
-
 --- @keymaps: fzf-lua
 map("n", "<leader>ff", "<cmd>FzfLua files<CR>", { desc = "Find Files" })
 map("n", "<leader>fk", "<cmd>FzfLua keymaps<CR>", { desc = "Find Keymaps" })
 map("n", "<leader>fw", "<cmd>FzfLua live_grep<CR>", { desc = "Find Word" })
 map("n", "<leader>fc", "<cmd>FzfLua commands<CR>", { desc = "Find Commands" })
-
 --- @keymaps: nvim-tree
 map("n", "<C-n>", "<cmd>NvimTreeToggle<CR>", { desc = "File Tree" })
-
 --- @Packages
 vim.pack.add({
 	---@plugin: Theme
-	"https://github.com/vague2k/vague.nvim",
+	"https://github.com/vague-theme/vague.nvim",
 	"https://github.com/nvim-lualine/lualine.nvim",
 	---@plugin: Essentials
 	{ src = "https://github.com/nvim-treesitter/nvim-treesitter", version = "master" },
@@ -143,6 +124,8 @@ vim.pack.add({
 	"https://github.com/nvim-tree/nvim-web-devicons",
 	"https://github.com/neovim/nvim-lspconfig",
 	"https://github.com/nvim-tree/nvim-tree.lua",
+	"https://github.com/folke/zen-mode.nvim",
+	"https://github.com/folke/twilight.nvim",
 	"https://github.com/mason-org/mason.nvim",
 	"https://github.com/stevearc/conform.nvim",
 	"https://github.com/rachartier/tiny-inline-diagnostic.nvim",
@@ -157,49 +140,21 @@ vim.pack.add({
 	{ src = "https://github.com/L3MON4D3/LuaSnip", version = "v2.4.0" },
 	---@plugin: Themes
 	"https://github.com/miikanissi/modus-themes.nvim",
-	"https://github.com/janet-lang/janet.vim",
-	---@plugin: AI
-	"https://github.com/4513ECHO/nvim-keycastr",
 })
 --- @plugins: compile-mode
 vim.g.compile_mode = {}
 require("modus-themes").setup({
-	style = "auto",
 	variant = "tritanopia",
 	line_nr_column_background = true,
-	on_colors = function(c)
-		c.fg_main = "#c9d1d9" -- Cool silver
-		c.red = "#ff6b6b" -- Bright red
-		c.magenta = "#bd93f9" -- Purple
-		c.yellow = "#ffd93d" -- Gold
-		c.orange = "#ffab70" -- Peach
-		c.info = "#58a6ff" -- Bright blue
-		c.warning = "#ffd93d"
-		c.error = "#ff6b6b"
-	end,
 	on_highlights = function(hl, c)
-		hl.Keyword = { fg = "#bd93f9" } -- Purple
-		hl.Boolean = { fg = "#ffab70" } -- Peach
-		hl.Function = { fg = "#58a6ff" } -- Bright blue
-		hl.String = { fg = "#4ade80" } -- Vibrant green
-		hl.Number = { fg = "#ffab70" } -- Peach
-		hl.Type = { fg = "#ffd93d" } -- Gold
-		hl.Comment = { fg = "#d67f8a", italic = true } -- Muted gray
-		hl.Visual = { bg = "#1f2937" }
-		hl.CursorLine = { bg = "#161b22" }
-		hl.LineNr = { fg = "#30363d" }
-		hl.Operator = { fg = "#c9d1d9" } -- Cool silver
-		hl.Identifier = { fg = "#58a6ff" } -- Bright blue
-		hl.Constant = { fg = "#ffab70" } -- Peach
-		hl.Special = { fg = "#bd93f9" } -- Purple
-		hl.Statement = { fg = "#ffab70" } -- Peach
-		hl.PreProc = { fg = "#ffd93d" } -- Gold
-		hl.MatchParen = { fg = "#4ade80", bg = "#1f2937", bold = true } -- Green highlight
-		hl.Search = { fg = "#0d1117", bg = "#ffd93d" } -- Gold search
-		hl.IncSearch = { fg = "#0d1117", bg = "#4ade80" } -- Green incremental search
+		hl.String = { fg = "#F49F0A" }
+		hl.Keyword = { fg = "#4ade80" }
 	end,
 })
 vim.cmd([[colorscheme modus_vivendi]])
+--- @plugins: zen-mode
+require("zen-mode").setup({})
+---@plugins: tiny-inline-diagnostic
 require("tiny-inline-diagnostic").setup({})
 --- @plugins: supermaven-nvim
 require("supermaven-nvim").setup({})
