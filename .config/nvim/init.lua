@@ -50,16 +50,35 @@ usercmd("CONFIG", function()
 	print("⭒₊ ⊹🌕₊ ⊹⭒")
 	vim.cmd("e ~/.config/nvim/init.lua")
 end, { desc = "Edit config file" })
-
 usercmd("Bashrc", function()
 	print("⋆˚☆˖°⋆｡° ✮˖ ࣪ ⊹⋆.˚")
 	vim.cmd("e ~/.bashrc")
 end, { desc = "Edit bashrc file" })
-
 usercmd("NixConfig", function()
 	print("⋆˚☆˖°⋆｡° ✮˖ ࣪ ⊹⋆.˚")
 	vim.cmd("e ~/nixconfig")
 end, { desc = "Edit nix config file" })
+usercmd("Just", function(opts)
+	print("⋆˚☆˖°⋆｡° ✮˖ ࣪ ⊹⋆.˚")
+	local args = opts.args
+	vim.cmd("Compile just" .. args)
+end, {
+	nargs = "*",
+	desc = "Wrapper to run a `just` via `Compile` ",
+	complete = function(ArgLead, CmdLine, CursorPos)
+		local handle = io.popen("just --summary 2> /dev/null")
+		if handle then
+			local result = handle:read("*a")
+			handle:close()
+			local recipes = {}
+			for recipe in string.gmatch(result, "%S+") do
+				table.insert(recipes, recipe)
+			end
+			return recipes
+		end
+		return {}
+	end,
+})
 --- @keymaps
 local map = vim.keymap.set
 --- @keymaps: Harpoon?
@@ -147,6 +166,7 @@ require("modus-themes").setup({
 	variant = "tritanopia",
 	line_nr_column_background = true,
 	on_highlights = function(hl, c)
+		hl.Constant = { fg = "#58a6ff" }
 		hl.String = { fg = "#F49F0A" }
 		hl.Keyword = { fg = "#4ade80" }
 	end,
@@ -315,4 +335,4 @@ vim.filetype.add({
 		monkey = "monkey",
 	},
 })
-vim.lsp.enable({ "lua_ls", "clangd", "ols", "ruff", "rust_analyzer", "deno" })
+vim.lsp.enable({ "lua_ls", "clangd", "ols", "ruff", "rust_analyzer", "deno", "rnix_lsp" })
