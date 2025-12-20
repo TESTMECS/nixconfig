@@ -61,7 +61,7 @@ end, { desc = "Edit nix config file" })
 usercmd("Just", function(opts)
 	print("⋆˚☆˖°⋆｡° ✮˖ ࣪ ⊹⋆.˚")
 	local args = opts.args
-	vim.cmd("Compile just" .. args)
+	vim.cmd("Compile just " .. args)
 end, {
 	nargs = "*",
 	desc = "Wrapper to run a `just` via `Compile` ",
@@ -81,34 +81,6 @@ end, {
 })
 --- @keymaps
 local map = vim.keymap.set
---- @keymaps: Harpoon?
-map("n", "<leader>a", function()
-	print("Harpoon?🔱Add")
-	vim.cmd("argadd")
-	vim.cmd("argdedup")
-	vim.cmd("normal! m'") -- Mark the line for o+i
-end, { desc = "Harpoon?" })
-
-map("n", "<leader>e", function()
-	print("Harpoon?🔱List Empty")
-	vim.cmd("args")
-end, { desc = "Harpoon?" })
-map("n", "<leader>1", function()
-	print("Harpoon?1🔱")
-	vim.cmd("silent! 1argument")
-end, { desc = "Harpoon?" })
-map("n", "<leader>2", function()
-	print("Harpoon?2🔱")
-	vim.cmd("silent! 2argument")
-end, { desc = "Harpoon?" })
-map("n", "<leader>3", function()
-	print("Harpoon?3🔱")
-	vim.cmd("silent! 3argument")
-end, { desc = "Harpoon?" })
-map("n", "<leader>4", function()
-	print("Harpoon?4🔱")
-	vim.cmd("silent! 4argument")
-end, { desc = "Harpoon?" })
 --- @keymaps: windows
 map("n", "<C-h>", "<C-w>h", { desc = "switch window left" })
 map("n", "<C-l>", "<C-w>l", { desc = "switch window right" })
@@ -143,12 +115,11 @@ vim.pack.add({
 	"https://github.com/nvim-tree/nvim-web-devicons",
 	"https://github.com/neovim/nvim-lspconfig",
 	"https://github.com/nvim-tree/nvim-tree.lua",
-	"https://github.com/folke/zen-mode.nvim",
-	"https://github.com/folke/twilight.nvim",
 	"https://github.com/mason-org/mason.nvim",
 	"https://github.com/stevearc/conform.nvim",
 	"https://github.com/rachartier/tiny-inline-diagnostic.nvim",
 	"https://github.com/ej-shafran/compile-mode.nvim",
+	"https://github.com/chentoast/marks.nvim",
 	---@plugin: completion
 	"https://github.com/supermaven-inc/supermaven-nvim",
 	"https://github.com/echasnovski/mini.completion",
@@ -159,6 +130,8 @@ vim.pack.add({
 	{ src = "https://github.com/L3MON4D3/LuaSnip", version = "v2.4.0" },
 	---@plugin: Themes
 	"https://github.com/miikanissi/modus-themes.nvim",
+	---@plugin: Fennel
+	"https://github.com/bakpakin/fennel.vim",
 })
 --- @plugins: compile-mode
 vim.g.compile_mode = {}
@@ -172,8 +145,8 @@ require("modus-themes").setup({
 	end,
 })
 vim.cmd([[colorscheme modus_vivendi]])
---- @plugins: zen-mode
-require("zen-mode").setup({})
+---@plugins: marks
+require("marks").setup({})
 ---@plugins: tiny-inline-diagnostic
 require("tiny-inline-diagnostic").setup({})
 --- @plugins: supermaven-nvim
