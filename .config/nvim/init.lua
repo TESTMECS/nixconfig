@@ -135,13 +135,51 @@ vim.pack.add({
 })
 --- @plugins: compile-mode
 vim.g.compile_mode = {}
+-- require("modus-themes").setup({
+-- 	variant = "tritanopia",
+-- 	line_nr_column_background = true,
+-- 	on_highlights = function(hl, c)
+-- 		hl.Constant = { fg = "#58a6ff" }
+-- 		hl.String = { fg = "#F49F0A" }
+-- 		hl.Keyword = { fg = "#4ade80" }
+-- 	end,
+-- })
+--- @colorscheme Midnight Azure
 require("modus-themes").setup({
+	style = "modus_vivendi",
 	variant = "tritanopia",
 	line_nr_column_background = true,
+	on_colors = function(c)
+		c.bg_main = "#0a0e14" -- Deep blue-black
+		c.fg_main = "#c5d4e8" -- Soft blue-white
+		c.red = "#5b88c4" -- Medium blue
+		c.magenta = "#8b7ec8" -- Purple
+		c.yellow = "#d4af37" -- Gold
+		c.orange = "#c9a05f" -- Muted gold
+		c.info = "#56b6c2" -- Sky blue
+		c.warning = "#d4af37"
+		c.error = "#e06c75"
+	end,
 	on_highlights = function(hl, c)
-		hl.Constant = { fg = "#58a6ff" }
-		hl.String = { fg = "#F49F0A" }
-		hl.Keyword = { fg = "#4ade80" }
+		hl.Keyword = { fg = "#d4af37" } -- Gold
+		hl.Boolean = { fg = "#6b9bd1" } -- Sky blue
+		hl.Function = { fg = "#5b88c4" } -- Medium blue
+		hl.String = { fg = "#6ba568" } -- Green
+		hl.Number = { fg = "#8b9dc7" } -- Light blue
+		hl.Type = { fg = "#7a9fd6" } -- Soft blue
+		hl.Comment = { fg = "#a8b5c7", italic = true } -- Silver
+		hl.Visual = { bg = "#1a2332" }
+		hl.CursorLine = { bg = "#0f1419" }
+		hl.LineNr = { fg = "#3d4f66" }
+		hl.Operator = { fg = "#8b7ec8" } -- Purple
+		hl.Identifier = { fg = "#7eb3d6" } -- Soft blue-white
+		hl.Constant = { fg = "#7a9fd6" } -- Soft blue
+		hl.Special = { fg = "#8b7ec8" } -- Purple
+		hl.Statement = { fg = "#d4af37" } -- Gold
+		hl.PreProc = { fg = "#6b9bd1" } -- Sky blue
+		hl.MatchParen = { fg = "#d4af37", bg = "#1a2332", bold = true } -- Gold highlight
+		hl.Search = { fg = "#0a0e14", bg = "#d4af37" } -- Gold search
+		hl.IncSearch = { fg = "#0a0e14", bg = "#c9a05f" } -- Muted gold incremental search
 	end,
 })
 vim.cmd([[colorscheme modus_vivendi]])
