@@ -79,6 +79,27 @@ end, {
 		return {}
 	end,
 })
+usercmd("Odin", function(opts)
+	print("⋆˚☆˖°⋆｡° ✮˖ ࣪ ⊹⋆.˚")
+	local args = opts.args
+	vim.cmd("Compile odin " .. args)
+end, {
+	nargs = "*",
+	desc = "Wrapper for Odin compiler via `Compile`",
+	complete = function(ArgLead, CmdLine, CursorPos)
+		local handle = io.popen("odin -h 2> /dev/null")
+		if handle then
+			local result = handle:read("*a")
+			handle:close()
+			local recipes = {}
+			for recipe in string.gmatch(result, "%S+") do
+				table.insert(recipes, recipe)
+			end
+			return recipes
+		end
+		return {}
+	end,
+})
 --- @keymaps
 local map = vim.keymap.set
 --- @keymaps: windows
