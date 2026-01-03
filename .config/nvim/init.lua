@@ -126,10 +126,8 @@ map("n", "<leader>fc", "<cmd>FzfLua commands<CR>", { desc = "Find Commands" })
 map("n", "<C-n>", "<cmd>NvimTreeToggle<CR>", { desc = "File Tree" })
 --- @Packages
 vim.pack.add({
-	---@plugin: Theme
-	"https://github.com/vague-theme/vague.nvim",
-	"https://github.com/nvim-lualine/lualine.nvim",
 	---@plugin: Essentials
+	"https://github.com/nvim-lualine/lualine.nvim",
 	{ src = "https://github.com/nvim-treesitter/nvim-treesitter", version = "master" },
 	{ src = "https://github.com/nvim-lua/plenary.nvim", version = "v0.1.4" },
 	"https://github.com/ibhagwan/fzf-lua",
@@ -151,20 +149,9 @@ vim.pack.add({
 	{ src = "https://github.com/L3MON4D3/LuaSnip", version = "v2.4.0" },
 	---@plugin: Themes
 	"https://github.com/miikanissi/modus-themes.nvim",
-	---@plugin: Fennel
-	"https://github.com/bakpakin/fennel.vim",
 })
 --- @plugins: compile-mode
 vim.g.compile_mode = {}
--- require("modus-themes").setup({
--- 	variant = "tritanopia",
--- 	line_nr_column_background = true,
--- 	on_highlights = function(hl, c)
--- 		hl.Constant = { fg = "#58a6ff" }
--- 		hl.String = { fg = "#F49F0A" }
--- 		hl.Keyword = { fg = "#4ade80" }
--- 	end,
--- })
 --- @colorscheme Midnight Azure
 require("modus-themes").setup({
 	style = "modus_vivendi",
@@ -181,15 +168,15 @@ require("modus-themes").setup({
 		c.warning = "#d4af37"
 		c.error = "#e06c75"
 	end,
-	on_highlights = function(hl, c)
+	on_highlights = function(hl, _)
 		hl.Keyword = { fg = "#d4af37" } -- Gold
 		hl.Boolean = { fg = "#6b9bd1" } -- Sky blue
-		hl.Function = { fg = "#5b88c4" } -- Medium blue
+		hl.Function = { fg = "#79C99E" } -- Granite
 		hl.String = { fg = "#6ba568" } -- Green
 		hl.Number = { fg = "#8b9dc7" } -- Light blue
 		hl.Type = { fg = "#7a9fd6" } -- Soft blue
 		hl.Comment = { fg = "#a8b5c7", italic = true } -- Silver
-		hl.Visual = { bg = "#1a2332" }
+		hl.Visual = { bg = "#c9a05f" }
 		hl.CursorLine = { bg = "#0f1419" }
 		hl.LineNr = { fg = "#3d4f66" }
 		hl.Operator = { fg = "#8b7ec8" } -- Purple
