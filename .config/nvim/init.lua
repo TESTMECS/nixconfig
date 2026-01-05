@@ -152,42 +152,32 @@ vim.pack.add({
 })
 --- @plugins: compile-mode
 vim.g.compile_mode = {}
---- @colorscheme Midnight Azure
 require("modus-themes").setup({
 	style = "modus_vivendi",
 	variant = "tritanopia",
 	line_nr_column_background = true,
-	on_colors = function(c)
-		c.bg_main = "#0a0e14" -- Deep blue-black
-		c.fg_main = "#c5d4e8" -- Soft blue-white
-		c.red = "#5b88c4" -- Medium blue
-		c.magenta = "#8b7ec8" -- Purple
-		c.yellow = "#d4af37" -- Gold
-		c.orange = "#c9a05f" -- Muted gold
-		c.info = "#56b6c2" -- Sky blue
-		c.warning = "#d4af37"
-		c.error = "#e06c75"
-	end,
 	on_highlights = function(hl, _)
-		hl.Keyword = { fg = "#d4af37" } -- Gold
+		hl.Operator = { fg = "#f4d03f", bold = true } -- Bright gold, bold
+		hl.Identifier = { fg = "#5dade2", bold = true } -- Bright cyan-blue, bold
+		hl.Keyword = { fg = "#a89076" } -- Muted tan/brown
+		hl.Statement = { fg = "#a89076" } -- Muted tan/brown
+		hl.Type = { fg = "#6b7c8f" } -- Darker muted blue
+		-- Other syntax elements (well-balanced)
 		hl.Boolean = { fg = "#6b9bd1" } -- Sky blue
-		hl.Function = { fg = "#79C99E" } -- Granite
+		hl.Function = { fg = "#79C99E" } -- Green (functions still important)
 		hl.String = { fg = "#6ba568" } -- Green
 		hl.Number = { fg = "#8b9dc7" } -- Light blue
-		hl.Type = { fg = "#7a9fd6" } -- Soft blue
 		hl.Comment = { fg = "#a8b5c7", italic = true } -- Silver
+		hl.Constant = { fg = "#7a9fd6" } -- Soft blue
+		hl.Special = { fg = "#8b7ec8" } -- Purple
+		hl.PreProc = { fg = "#6b9bd1" } -- Sky blue
+		-- UI elements
 		hl.Visual = { bg = "#c9a05f" }
 		hl.CursorLine = { bg = "#0f1419" }
 		hl.LineNr = { fg = "#3d4f66" }
-		hl.Operator = { fg = "#8b7ec8" } -- Purple
-		hl.Identifier = { fg = "#7eb3d6" } -- Soft blue-white
-		hl.Constant = { fg = "#7a9fd6" } -- Soft blue
-		hl.Special = { fg = "#8b7ec8" } -- Purple
-		hl.Statement = { fg = "#d4af37" } -- Gold
-		hl.PreProc = { fg = "#6b9bd1" } -- Sky blue
-		hl.MatchParen = { fg = "#d4af37", bg = "#1a2332", bold = true } -- Gold highlight
-		hl.Search = { fg = "#0a0e14", bg = "#d4af37" } -- Gold search
-		hl.IncSearch = { fg = "#0a0e14", bg = "#c9a05f" } -- Muted gold incremental search
+		hl.MatchParen = { fg = "#f4d03f", bg = "#1a2332", bold = true } -- Bright gold
+		hl.Search = { fg = "#0a0e14", bg = "#f4d03f" } -- Gold search
+		hl.IncSearch = { fg = "#0a0e14", bg = "#c9a05f" } -- Muted gold
 	end,
 })
 vim.cmd([[colorscheme modus_vivendi]])
@@ -281,33 +271,18 @@ require("lualine").setup({
 })
 --- @plugins: conform
 require("conform").setup({
-	formatters = {
-		odinfmt = {
-			command = "/home/nixos/ols/odinfmt",
-			args = { "-stdin" },
-			stdin = true,
-		},
-		prettier = {
-			command = "prettier",
-			args = { "--stdin", "--stdin-filepath", "$FILENAME" },
-			stdin = true,
-		},
-	},
 	formatters_by_ft = {
-		asm = { "asmfmt" },
 		lua = { "stylua" },
-		javascript = { "prettier" },
 		rust = { "rustfmt", "rust-analyzer" },
 		python = { "ruff" },
 		c = { "clang-format" },
-		odin = { "odinfmt" },
 	},
 })
---- @plugins: clangd-lsp
+--- @LSP_custom: custom settings.
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 local cmp_cap = require("mini.completion").get_lsp_capabilities()
 vim.tbl_deep_extend("force", capabilities, cmp_cap)
---- @lspconfig Clangd
+---@LSP_custom: lua_ls
 vim.lsp.config("clangd", {
 	settings = {
 		clangd = {
@@ -327,6 +302,7 @@ vim.lsp.config("clangd", {
 		},
 	},
 })
+--- @LSP_custom: lua_ls
 vim.lsp.config("lua_ls", {
 	cmd = { "/nix/store/yv5gfrvadvfj68idcqkzixqnyl40phiy-lua-language-server-3.15.0/bin/lua-language-server" },
 	filetypes = { "lua" },
@@ -348,10 +324,4 @@ vim.lsp.config("lua_ls", {
 		},
 	},
 })
---- @filetype monkey
-vim.filetype.add({
-	extension = {
-		monkey = "monkey",
-	},
-})
-vim.lsp.enable({ "lua_ls", "clangd", "ols", "ruff", "rust_analyzer", "deno", "rnix_lsp" })
+vim.lsp.enable({ "lua_ls", "ruff", "rust_analyzer", "rnix_lsp", "clangd" })
