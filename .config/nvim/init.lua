@@ -14,6 +14,7 @@ vim.g.maplocalleader = " "
 vim.g.have_nerd_font = true
 --- @options
 vim.opt.modeline = false
+vim.o.colorcolumn = "100"
 vim.o.number = true
 vim.o.autoindent = true
 vim.o.smartindent = true
@@ -271,7 +272,15 @@ require("lualine").setup({
 })
 --- @plugins: conform
 require("conform").setup({
+	formatters = {
+		odinfmt = {
+			command = "/home/nixos/ols/odinfmt",
+			args = { "--stdin" },
+			stdin = true,
+		},
+	},
 	formatters_by_ft = {
+		odin = { "odinfmt" },
 		lua = { "stylua" },
 		rust = { "rustfmt", "rust-analyzer" },
 		python = { "ruff" },
@@ -282,26 +291,6 @@ require("conform").setup({
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 local cmp_cap = require("mini.completion").get_lsp_capabilities()
 vim.tbl_deep_extend("force", capabilities, cmp_cap)
----@LSP_custom: lua_ls
-vim.lsp.config("clangd", {
-	settings = {
-		clangd = {
-			cmd = {
-				"clangd",
-				"--background-index",
-				"--clang-tidy",
-				"--header-insertion=iwyu",
-				"--completion-style=detailed",
-				"--function-arg-placeholders",
-				"--fallback-style=llvm",
-			},
-			root_markers = {
-				".git",
-				".clangd",
-			},
-		},
-	},
-})
 --- @LSP_custom: lua_ls
 vim.lsp.config("lua_ls", {
 	cmd = { "/nix/store/yv5gfrvadvfj68idcqkzixqnyl40phiy-lua-language-server-3.15.0/bin/lua-language-server" },
@@ -324,4 +313,4 @@ vim.lsp.config("lua_ls", {
 		},
 	},
 })
-vim.lsp.enable({ "lua_ls", "ruff", "rust_analyzer", "rnix_lsp", "clangd" })
+vim.lsp.enable({ "lua_ls", "ruff", "rust_analyzer", "rnix_lsp", "ols" })
