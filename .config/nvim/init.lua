@@ -148,40 +148,16 @@ vim.pack.add({
 	"https://github.com/echasnovski/mini.snippets",
 	"https://github.com/rafamadriz/friendly-snippets",
 	{ src = "https://github.com/L3MON4D3/LuaSnip", version = "v2.4.0" },
-	---@plugin: Themes
-	"https://github.com/miikanissi/modus-themes.nvim",
+	---@plugin: Janet
+	"https://github.com/janet-lang/janet.vim",
+	---@plugin: Fennel
+	"https://github.com/bakpakin/fennel.vim",
+	---@plugin: Theme
+	"https://github.com/logannday/gruber-darker-nvim",
 })
 --- @plugins: compile-mode
 vim.g.compile_mode = {}
-require("modus-themes").setup({
-	style = "modus_vivendi",
-	variant = "tritanopia",
-	line_nr_column_background = true,
-	on_highlights = function(hl, _)
-		hl.Operator = { fg = "#f4d03f", bold = true } -- Bright gold, bold
-		hl.Identifier = { fg = "#5dade2", bold = true } -- Bright cyan-blue, bold
-		hl.Keyword = { fg = "#a89076" } -- Muted tan/brown
-		hl.Statement = { fg = "#a89076" } -- Muted tan/brown
-		hl.Type = { fg = "#6b7c8f" } -- Darker muted blue
-		-- Other syntax elements (well-balanced)
-		hl.Boolean = { fg = "#6b9bd1" } -- Sky blue
-		hl.Function = { fg = "#79C99E" } -- Green (functions still important)
-		hl.String = { fg = "#6ba568" } -- Green
-		hl.Number = { fg = "#8b9dc7" } -- Light blue
-		hl.Comment = { fg = "#a8b5c7", italic = true } -- Silver
-		hl.Constant = { fg = "#7a9fd6" } -- Soft blue
-		hl.Special = { fg = "#8b7ec8" } -- Purple
-		hl.PreProc = { fg = "#6b9bd1" } -- Sky blue
-		-- UI elements
-		hl.Visual = { bg = "#c9a05f" }
-		hl.CursorLine = { bg = "#0f1419" }
-		hl.LineNr = { fg = "#3d4f66" }
-		hl.MatchParen = { fg = "#f4d03f", bg = "#1a2332", bold = true } -- Bright gold
-		hl.Search = { fg = "#0a0e14", bg = "#f4d03f" } -- Gold search
-		hl.IncSearch = { fg = "#0a0e14", bg = "#c9a05f" } -- Muted gold
-	end,
-})
-vim.cmd([[colorscheme modus_vivendi]])
+vim.cmd([[colorscheme gruber-darker]])
 ---@plugins: marks
 require("marks").setup({})
 ---@plugins: tiny-inline-diagnostic
@@ -275,7 +251,7 @@ require("conform").setup({
 	formatters = {
 		odinfmt = {
 			command = "/home/nixos/ols/odinfmt",
-			args = { "--stdin" },
+			args = { "-stdin" },
 			stdin = true,
 		},
 	},
@@ -313,4 +289,4 @@ vim.lsp.config("lua_ls", {
 		},
 	},
 })
-vim.lsp.enable({ "lua_ls", "ruff", "rust_analyzer", "rnix_lsp", "ols" })
+vim.lsp.enable({ "lua_ls", "ruff", "rust_analyzer", "rnix_lsp", "ols", "fennel_ls" })
