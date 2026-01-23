@@ -152,12 +152,22 @@ vim.pack.add({
 	"https://github.com/janet-lang/janet.vim",
 	---@plugin: Fennel
 	"https://github.com/bakpakin/fennel.vim",
-	---@plugin: Theme
-	"https://github.com/logannday/gruber-darker-nvim",
+	"https://github.com/miikanissi/modus-themes.nvim",
 })
 --- @plugins: compile-mode
 vim.g.compile_mode = {}
-vim.cmd([[colorscheme gruber-darker]])
+require("modus-themes").setup({
+	variant = "deuteranopia",
+	styles = {
+		Conditional = { bold = true },
+		Repeat = { bold = true }, -- `for`, `do`, `while`, etc.
+		Label = { bold = true }, -- `case`, `default`, etc.
+	},
+	on_highlights = function(hl, colors)
+		hl.String = { fg = colors.green }
+	end,
+})
+vim.cmd([[colorscheme modus_vivendi]])
 ---@plugins: marks
 require("marks").setup({})
 ---@plugins: tiny-inline-diagnostic
@@ -177,6 +187,7 @@ require("nvim-treesitter").setup({
 		"bash",
 		"html",
 		"vim",
+		"elixir",
 		"vimdoc",
 	},
 	highlight = { enable = true, use_languagetree = true },
@@ -256,6 +267,7 @@ require("conform").setup({
 		},
 	},
 	formatters_by_ft = {
+		typescript = { "prettierd" },
 		odin = { "odinfmt" },
 		lua = { "stylua" },
 		rust = { "rustfmt", "rust-analyzer" },
@@ -289,4 +301,36 @@ vim.lsp.config("lua_ls", {
 		},
 	},
 })
-vim.lsp.enable({ "lua_ls", "ruff", "rust_analyzer", "rnix_lsp", "ols", "fennel_ls" })
+vim.lsp.config("clangd", {
+	settings = {
+		clangd = {
+			cmd = {
+				"clangd",
+				"--background-index",
+				"--clang-tidy",
+				"--header-insertion=iwyu",
+				"--completion-style=detailed",
+				"--function-arg-placeholders",
+				"--fallback-style=llvm",
+			},
+			root_markers = {
+				".git",
+				".clangd",
+			},
+		},
+	},
+})
+vim.lsp.config("typescript-language-server", {
+	cmd = { "typescript-language-server", "--stdio" },
+	filetypes = { "typescript" },
+})
+vim.lsp.enable({
+	"lua_ls",
+	"ruff",
+	"rust_analyzer",
+	"rnix_lsp",
+	"ols",
+	"fennel_ls",
+	"typescript-language-server",
+	"clangd",
+})
