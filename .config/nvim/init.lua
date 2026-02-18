@@ -153,6 +153,7 @@ vim.pack.add({
 	---@plugin: Fennel
 	"https://github.com/bakpakin/fennel.vim",
 	"https://github.com/miikanissi/modus-themes.nvim",
+	"https://github.com/wadackel/vim-dogrun",
 })
 --- @plugins: compile-mode
 vim.g.compile_mode = {}
@@ -168,6 +169,7 @@ require("modus-themes").setup({
 	end,
 })
 vim.cmd([[colorscheme modus_vivendi]])
+-- vim.cmd([[colorscheme dogrun]])
 ---@plugins: marks
 require("marks").setup({})
 ---@plugins: tiny-inline-diagnostic
@@ -267,12 +269,14 @@ require("conform").setup({
 		},
 	},
 	formatters_by_ft = {
+		javascript = { "prettierd" },
 		typescript = { "prettierd" },
 		odin = { "odinfmt" },
 		lua = { "stylua" },
 		rust = { "rustfmt", "rust-analyzer" },
 		python = { "ruff" },
 		c = { "clang-format" },
+		cpp = { "clang-format" }, -- for header files.
 	},
 })
 --- @LSP_custom: custom settings.
