@@ -195,6 +195,20 @@ require("nvim-treesitter").setup({
 	highlight = { enable = true, use_languagetree = true },
 	indent = { enable = true },
 })
+local parser_config = require("nvim-treesitter.parsers")
+parser_config.bubo = {
+	install_info = {
+		path = "~/bubo",
+		files = { "src/parser.c" },
+		queries = "queries/bubo",
+	},
+	filetype = "bubo",
+}
+vim.filetype.add({
+	extension = { bubo = "bubo" },
+})
+vim.treesitter.language.register("bubo", { "bubo" })
+
 --- @plugins: nvim-autopairs
 require("nvim-autopairs").setup({})
 --- @plugins
