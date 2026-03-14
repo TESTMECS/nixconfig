@@ -80,27 +80,6 @@ end, {
 		return {}
 	end,
 })
-usercmd("Odin", function(opts)
-	print("⋆˚☆˖°⋆｡° ✮˖ ࣪ ⊹⋆.˚")
-	local args = opts.args
-	vim.cmd("Compile odin " .. args)
-end, {
-	nargs = "*",
-	desc = "Wrapper for Odin compiler via `Compile`",
-	complete = function(ArgLead, CmdLine, CursorPos)
-		local handle = io.popen("odin -h 2> /dev/null")
-		if handle then
-			local result = handle:read("*a")
-			handle:close()
-			local recipes = {}
-			for recipe in string.gmatch(result, "%S+") do
-				table.insert(recipes, recipe)
-			end
-			return recipes
-		end
-		return {}
-	end,
-})
 --- @keymaps
 local map = vim.keymap.set
 --- @keymaps: windows
@@ -135,7 +114,6 @@ vim.pack.add({
 	"https://github.com/nvim-tree/nvim-web-devicons",
 	"https://github.com/neovim/nvim-lspconfig",
 	"https://github.com/nvim-tree/nvim-tree.lua",
-	"https://github.com/mason-org/mason.nvim",
 	"https://github.com/stevearc/conform.nvim",
 	"https://github.com/rachartier/tiny-inline-diagnostic.nvim",
 	"https://github.com/ej-shafran/compile-mode.nvim",
@@ -153,7 +131,6 @@ vim.pack.add({
 	---@plugin: Fennel
 	"https://github.com/bakpakin/fennel.vim",
 	"https://github.com/miikanissi/modus-themes.nvim",
-	"https://github.com/wadackel/vim-dogrun",
 })
 --- @plugins: compile-mode
 vim.g.compile_mode = {}
@@ -163,13 +140,13 @@ require("modus-themes").setup({
 		Conditional = { bold = true },
 		Repeat = { bold = true }, -- `for`, `do`, `while`, etc.
 		Label = { bold = true }, -- `case`, `default`, etc.
+		Boolean = { bold = true },
 	},
 	on_highlights = function(hl, colors)
 		hl.String = { fg = colors.green }
 	end,
 })
 vim.cmd([[colorscheme modus_vivendi]])
--- vim.cmd([[colorscheme dogrun]])
 ---@plugins: marks
 require("marks").setup({})
 ---@plugins: tiny-inline-diagnostic
@@ -183,7 +160,6 @@ require("nvim-treesitter").setup({
 		"javascript",
 		"markdown",
 		"json",
-		"odin",
 		"janet-simple",
 		"nix",
 		"bash",
@@ -195,24 +171,8 @@ require("nvim-treesitter").setup({
 	highlight = { enable = true, use_languagetree = true },
 	indent = { enable = true },
 })
-local parser_config = require("nvim-treesitter.parsers")
-parser_config.bubo = {
-	install_info = {
-		path = "~/bubo",
-		files = { "src/parser.c" },
-		queries = "queries/bubo",
-	},
-	filetype = "bubo",
-}
-vim.filetype.add({
-	extension = { bubo = "bubo" },
-})
-vim.treesitter.language.register("bubo", { "bubo" })
-
 --- @plugins: nvim-autopairs
 require("nvim-autopairs").setup({})
---- @plugins
-require("mason").setup({})
 --- @plugins: fzf-lua
 require("fzf-lua").setup({ "fzf-native" })
 --- @plugins: nvim-tree
@@ -347,8 +307,5 @@ vim.lsp.enable({
 	"ruff",
 	"rust_analyzer",
 	"rnix_lsp",
-	"ols",
-	"fennel_ls",
-	"typescript-language-server",
 	"clangd",
 })
