@@ -19,9 +19,6 @@
     bat # better cat/less
     fzf # better fuzzy find 
     eza # better ls
-    procs # better ps
-		dua # lua???
-		unstable.rustup #rustup
     # === shell ===
 		bash
 		fish

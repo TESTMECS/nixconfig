@@ -298,14 +298,7 @@ vim.lsp.config("clangd", {
 		},
 	},
 })
-vim.lsp.config("typescript-language-server", {
-	cmd = { "typescript-language-server", "--stdio" },
-	filetypes = { "typescript" },
-})
 vim.lsp.enable({
 	"lua_ls",
-	"ruff",
-	"rust_analyzer",
-	"rnix_lsp",
 	"clangd",
 })
