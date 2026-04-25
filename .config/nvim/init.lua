@@ -119,7 +119,6 @@ vim.pack.add({
 	"https://github.com/ej-shafran/compile-mode.nvim",
 	"https://github.com/chentoast/marks.nvim",
 	---@plugin: completion
-	"https://github.com/supermaven-inc/supermaven-nvim",
 	"https://github.com/echasnovski/mini.completion",
 	"https://github.com/windwp/nvim-autopairs",
 	"https://github.com/echasnovski/mini.icons",
@@ -151,8 +150,6 @@ vim.cmd([[colorscheme modus_vivendi]])
 require("marks").setup({})
 ---@plugins: tiny-inline-diagnostic
 require("tiny-inline-diagnostic").setup({})
---- @plugins: supermaven-nvim
-require("supermaven-nvim").setup({})
 --- @plugins: treesitter
 require("nvim-treesitter").setup({
 	ensure_installed = {
@@ -167,6 +164,10 @@ require("nvim-treesitter").setup({
 		"vim",
 		"elixir",
 		"vimdoc",
+		"go",
+		"gowork",
+		"gomod",
+		"gosum",
 	},
 	highlight = { enable = true, use_languagetree = true },
 	indent = { enable = true },
@@ -251,6 +252,7 @@ require("conform").setup({
 		python = { "ruff" },
 		c = { "clang-format" },
 		cpp = { "clang-format" }, -- for header files.
+		go = { "gofmt" },
 	},
 })
 --- @LSP_custom: custom settings.
@@ -298,7 +300,17 @@ vim.lsp.config("clangd", {
 		},
 	},
 })
+vim.lsp.config("gopls", {
+	settings = {
+		gopls = {
+			semanticTokens = true,
+		},
+	},
+})
 vim.lsp.enable({
 	"lua_ls",
 	"clangd",
+	"zls",
+	"gopls",
+	"ts_ls",
 })

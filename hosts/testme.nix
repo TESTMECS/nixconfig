@@ -13,6 +13,8 @@
     wget
     unzip
     # === Rust ===
+		cargo
+		rustc
 		just
     ripgrep # better grep
     fd # better find
