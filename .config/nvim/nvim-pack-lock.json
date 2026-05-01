@@ -147,6 +147,10 @@
       "rev": "07d20fce48a5629686aefb0a7cd4b25e33947d50",
       "src": "https://github.com/supermaven-inc/supermaven-nvim"
     },
+    "thorn.nvim": {
+      "rev": "a793d5026ae09a17da175c5d8bd884df18a4b9a1",
+      "src": "https://github.com/jpwol/thorn.nvim"
+    },
     "tiny-inline-diagnostic.nvim": {
       "rev": "6d8dc61a9c4077d9ec62a9c8998506dcd2a5b6af",
       "src": "https://github.com/rachartier/tiny-inline-diagnostic.nvim"
